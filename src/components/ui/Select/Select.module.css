@@ -1,0 +1,16 @@
+.select {
+  min-height: 46px;
+  width: 100%;
+  padding: 10px 18px 10px 18px;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  font-size: 16px;
+  color-scheme: dark;
+  appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m2 5 6 6 6-6' fill='none' stroke='%239eabb8' stroke-width='1.5'/%3E%3C/svg%3E")
+    no-repeat right 16px center;
+}
+.select option {
+  background-color: var(--color-control-background);
+  color: var(--color-control-text);
+}

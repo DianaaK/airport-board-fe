@@ -1,5 +1,7 @@
 import type { Key, ReactNode } from 'react';
 
+import styles from './DataTable.module.css';
+
 export type CellParams<Row> = {
   row: Row;
   field: keyof Row & string;
@@ -16,20 +18,18 @@ type DataTableProps<Row> = {
   rows: readonly Row[];
   columns: readonly ColumnDef<Row>[];
   getRowId: (row: Row) => Key;
-  label: string;
   emptyMessage?: string;
 };
 
-export function DataTable<Row>({
+export const DataTable = <Row,>({
   rows,
   columns,
   getRowId,
-  label,
   emptyMessage = 'No rows to display.',
-}: DataTableProps<Row>) {
+}: DataTableProps<Row>) => {
   return (
-    <div className="table-scroll">
-      <table aria-label={label}>
+    <div className={styles.tableScroll}>
+      <table className={styles.table}>
         <thead>
           <tr>
             {columns.map((column) => (
@@ -61,4 +61,4 @@ export function DataTable<Row>({
       </table>
     </div>
   );
-}
+};

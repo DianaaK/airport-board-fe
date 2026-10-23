@@ -1,0 +1,28 @@
+.boardWorkspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.boardWorkspace.hasDetails {
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+}
+
+.boardPrimary {
+  min-width: 0;
+}
+
+.boardDetails {
+  border: 1px solid var(--color-panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel-background);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+@media (max-width: 1100px) {
+  .boardWorkspace.hasDetails {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

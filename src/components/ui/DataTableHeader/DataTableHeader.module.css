@@ -1,0 +1,94 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 18px;
+  cursor: pointer;
+  list-style: none;
+  background: linear-gradient(110deg, #0c1823, #07111a);
+}
+
+.header::-webkit-details-marker {
+  display: none;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  max-width: 160px;
+  overflow: hidden;
+  padding: 2px 9px;
+  height: 43px;
+  border-radius: var(--radius-control);
+  background: linear-gradient(120deg, var(--mark-start), var(--mark-middle) 70%, var(--mark-end));
+  color: #07131d;
+  font-size: 26px;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--mark-border);
+}
+
+.yellow {
+  --mark-start: #ffcf32;
+  --mark-middle: #f8d572;
+  --mark-end: #ffbe27;
+  --mark-border: #ffe390;
+}
+
+.blue {
+  --mark-start: #56b7ff;
+  --mark-middle: #93d5ff;
+  --mark-end: #389dec;
+  --mark-border: #b8e4ff;
+}
+
+.green {
+  --mark-start: #50d49a;
+  --mark-middle: #98e6b8;
+  --mark-end: #32bd80;
+  --mark-border: #b8f2ce;
+}
+
+.purple {
+  --mark-start: #b398ff;
+  --mark-middle: #d2bfff;
+  --mark-end: #a17bea;
+  --mark-border: #e3d6ff;
+}
+
+.pink {
+  --mark-start: #f58eb7;
+  --mark-middle: #ffc0d8;
+  --mark-end: #e873a1;
+  --mark-border: #ffdae8;
+}
+
+.groupTitle strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.groupTitle small {
+  display: block;
+  margin-top: 3px;
+  color: #94acc2;
+  font-size: var(--font-size-sm);
+}
+
+.groupChevron {
+  margin-left: auto;
+  font-size: 22px;
+  color: #bfd2e3;
+}
+
+details:not([open]) .groupChevron {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 760px) {
+  .groupTitle strong {
+    font-size: 17px;
+  }
+}

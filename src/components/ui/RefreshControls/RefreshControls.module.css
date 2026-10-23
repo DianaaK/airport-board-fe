@@ -1,0 +1,43 @@
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+.refreshButton {
+  border-color: #377bb0;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #a1b5ca;
+  font-size: var(--font-size-body);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 8px #20cf8430;
+}
+
+.stale .dot {
+  background: var(--color-warning);
+}
+
+@media (max-width: 760px) {
+  .actions {
+    flex: 1;
+    flex-wrap: wrap;
+  }
+  .status {
+    margin-right: auto;
+    font-size: var(--font-size-sm);
+  }
+}

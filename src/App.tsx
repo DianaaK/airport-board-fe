@@ -1,7 +1,7 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router';
 
-import { AppLayout } from './components/layouts/AppLayout';
-import { FlightList } from './features/flights/components/FlightList';
+import { AppLayout } from './components/layout/AppLayout/AppLayout';
+import { FlightList } from './features/flights/components/FlightList/FlightList';
 
 export function App() {
   return (

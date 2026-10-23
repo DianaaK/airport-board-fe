@@ -1,0 +1,72 @@
+.flightBoard {
+  border: 1px solid var(--color-panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel-background);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-8);
+  padding: var(--space-4);
+  background: #09121b;
+  border-bottom: 1px solid var(--color-panel-border);
+}
+
+.flightBoard > div[aria-busy] > p {
+  padding: 3px var(--space-5);
+  font-size: var(--font-size-sm);
+  color: #829bb2;
+}
+
+.flightGroup {
+  border-bottom: 1px solid #213442;
+}
+
+.flightGroup:last-child {
+  border-bottom: 0;
+}
+
+.airlineName {
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  color: #b8d9f3;
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-1) 11px;
+  border-radius: 6px;
+  font-size: var(--font-size-control);
+}
+
+.onTime {
+  color: #25efac;
+  background: #033f325e;
+}
+
+.delayed {
+  color: #ffbd16;
+  background: #62460b50;
+}
+
+.cancelled {
+  color: #ff4b60;
+  background: #690d224d;
+}
+
+.empty {
+  padding: 36px;
+  text-align: center;
+  color: #9cb4ca;
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    padding: var(--space-3);
+    gap: 10px;
+  }
+}

@@ -1,0 +1,29 @@
+.update {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: var(--space-2) var(--space-5);
+  color: #869eb5;
+  font-size: var(--font-size-control);
+  border-bottom: 1px solid #162a39;
+}
+
+.error {
+  background: #392a1355;
+  border: 1px solid #8b6827;
+  border-radius: 6px;
+  margin: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text);
+  font-size: var(--font-size-control);
+}
+
+.error strong {
+  color: #f4cb7b;
+}
+
+@media (max-width: 760px) {
+  .update {
+    padding: 10px 14px;
+  }
+}

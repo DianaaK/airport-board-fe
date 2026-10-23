@@ -12,12 +12,6 @@ export interface Flight {
   departureTime: string;
 }
 
-export interface FlightFilters {
-  status: FlightStatus | 'all';
-}
-
-export type FlightGrouping = 'terminal' | 'gate' | 'airline';
-
 export interface FlightDto {
   id: string;
   flight_number: string;

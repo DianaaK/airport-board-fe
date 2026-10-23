@@ -1,0 +1,28 @@
+:root {
+  --font-family-sans: 'Segoe UI', system-ui, sans-serif;
+  --color-text: #e7edf6;
+  --color-background: #040d14;
+  --color-control-text: #e5edf7;
+  --color-control-background: #0e1d2a;
+  --color-control-border: #2b4357;
+  --color-text-muted: #8096ad;
+  --color-focus: #38b7ff;
+  --color-panel-border: #1a2c3a;
+  --color-panel-background: #061019d9;
+  --color-success: #20cf84;
+  --color-warning: #ffba37;
+  --radius-control: 7px;
+  --radius-panel: 10px;
+  --shadow-panel: 0 12px 50px #0002;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-control: 13px;
+  --font-size-body: 14px;
+}

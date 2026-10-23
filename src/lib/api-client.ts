@@ -13,11 +13,11 @@ export class ApiError extends Error {
   }
 }
 
-export async function fetcher<T>(
+export const fetcher = async <T>(
   endpoint: string,
   options: RequestOptions = {},
   responseType: ResponseType = ResponseType.JSON,
-): Promise<T> {
+): Promise<T> => {
   const { secured = false, headers: customHeaders, ...requestOptions } = options;
   const headers = new Headers(customHeaders);
 
@@ -54,7 +54,7 @@ export async function fetcher<T>(
     default:
       return {} as T;
   }
-}
+};
 
 export const api = {
   get: <T>(
