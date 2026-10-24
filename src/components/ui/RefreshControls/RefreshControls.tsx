@@ -32,6 +32,7 @@ export const RefreshControls = ({
       )}
     </span>
     <Button
+      data-testid="refresh-button"
       size="small"
       className={styles.refreshButton}
       disabled={isFetching}

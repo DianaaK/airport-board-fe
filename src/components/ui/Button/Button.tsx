@@ -19,6 +19,7 @@ export const Button = ({
   return (
     <button
       type="button"
+      data-testid="button"
       {...props}
       className={[styles.button, styles[size], className].filter(Boolean).join(' ')}
     >

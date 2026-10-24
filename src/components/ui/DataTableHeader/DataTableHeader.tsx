@@ -14,11 +14,11 @@ export const DataTableHeader = ({
   subtitle,
   color = 'yellow',
 }: DataTableHeaderProps) => (
-  <summary className={styles.header}>
+  <summary className={styles.header} data-testid="data-table-header">
     <span className={`${styles.mark} ${styles[color]}`}>{value}</span>
     <span className={styles.groupTitle}>
-      <strong>{title}</strong>
-      <small>{subtitle}</small>
+      <strong data-testid="group-title">{title}</strong>
+      <small data-testid="group-subtitle">{subtitle}</small>
     </span>
     <span className={styles.groupChevron}>⌃</span>
   </summary>

@@ -1,4 +1,4 @@
-import { useQuery } from '../../../hooks/useQuery';
+import { useQuery } from '../../../hooks/useQuery/useQuery';
 import { getFlights } from '../api/get-flights';
 
 export const useGetFlights = () => {

@@ -15,8 +15,8 @@ export type ColumnDef<Row> = {
 };
 
 type DataTableProps<Row> = {
-  rows: readonly Row[];
-  columns: readonly ColumnDef<Row>[];
+  rows: Row[];
+  columns: ColumnDef<Row>[];
   getRowId: (row: Row) => Key;
   emptyMessage?: string;
 };
@@ -28,21 +28,23 @@ export const DataTable = <Row,>({
   emptyMessage = 'No rows to display.',
 }: DataTableProps<Row>) => {
   return (
-    <div className={styles.tableScroll}>
+    <div className={styles.tableScroll} data-testid="data-table">
       <table className={styles.table}>
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={column.field} scope="col">
+              <th key={column.field} scope="col" data-testid={`header-${column.field}`}>
                 {column.headerName}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {rows.length === 0 ? (
+          {!rows.length ? (
             <tr>
-              <td colSpan={columns.length}>{emptyMessage}</td>
+              <td colSpan={columns.length} data-testid="cell-empty">
+                {emptyMessage}
+              </td>
             </tr>
           ) : (
             rows.map((row) => (
@@ -52,7 +54,11 @@ export const DataTable = <Row,>({
                   const content = column.renderCell
                     ? column.renderCell(params)
                     : String(params.value ?? '');
-                  return <td key={column.field}>{content}</td>;
+                  return (
+                    <td key={column.field} data-testid={`cell-${column.field}-${getRowId(row)}`}>
+                      {content}
+                    </td>
+                  );
                 })}
               </tr>
             ))

@@ -7,28 +7,30 @@ type RefreshStatusInfoProps = {
   error: Error | null;
 };
 
+// ToDo: this should be general
 export const RefreshStatusInfo = ({
   isLoading,
   isFetching,
   hasFlights,
   error,
 }: RefreshStatusInfoProps) => {
+  // ToDo component: Error Banner
   const renderError = (title: string, description: string) => (
-    <div className={styles.error} role="alert">
-      <strong>{title}</strong>
-      <p>{description}</p>
+    <div className={styles.error}>
+      <strong data-testid="error-title">{title}</strong>
+      <p data-testid="error-text">{description}</p>
     </div>
   );
 
   return (
     <>
       {isLoading && (
-        <div className={styles.update} role="status">
+        <div className={styles.update} data-testid="loading">
           Loading flights... Please wait.
         </div>
       )}
       {isFetching && hasFlights && (
-        <div className={styles.update} role="status">
+        <div className={styles.update} data-testid="refreshing">
           Refreshing flights...
         </div>
       )}

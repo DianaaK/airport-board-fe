@@ -5,7 +5,7 @@ import { PageLayout } from '../../../../components/layout/PageLayout/PageLayout'
 import { DataTable, type ColumnDef } from '../../../../components/ui/DataTable/DataTable';
 import { DataTableHeader } from '../../../../components/ui/DataTableHeader/DataTableHeader';
 import { RefreshControls } from '../../../../components/ui/RefreshControls/RefreshControls';
-import { useInterval } from '../../../../hooks/useInterval';
+import { useInterval } from '../../../../hooks/useInterval/useInterval';
 import { dateFormat, timeFormat } from '../../../../utils/date-format';
 import { useGetFlights } from '../../hooks/useGetFlights';
 import { type Flight, type FlightStatus } from '../../types/flight';
@@ -99,10 +99,17 @@ export const FlightList = () => {
         {hasFlights && (
           <div aria-busy={isFetching && hasFlights}>
             {groups.size === 0 && (
-              <p className={styles.empty}>No flights match the selected filters.</p>
+              <p className={styles.empty} data-testid="empty-message">
+                No flights match the selected filters.
+              </p>
             )}
             {[...groups].map(([name, group], index) => (
-              <details className={styles.flightGroup} key={`${grouping}-${name}`} open>
+              <details
+                className={styles.flightGroup}
+                key={`${grouping}-${name}`}
+                data-testid={`flight-group-${grouping}-${name}`}
+                open
+              >
                 <DataTableHeader
                   value={grouping === 'airline' ? name.charAt(0) : name}
                   title={getGroupingName(grouping, name)}

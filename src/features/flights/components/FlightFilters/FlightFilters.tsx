@@ -52,6 +52,7 @@ export const FlightFilters = ({
     <div className={styles.selectBox}>
       <Select
         name="grouping"
+        data-testid="grouping-select"
         value={grouping}
         options={groupingOptions}
         onChange={(grouping) => onGroupingChange(grouping as FlightGroupOption)}
