@@ -6,10 +6,10 @@ export interface Flight {
   flightNumber: string;
   destination: string;
   status: FlightStatus;
-  gate: string;
+  gate?: string;
   terminal: string;
-  airline: string;
-  departureTime: string;
+  airline?: string;
+  departureTime?: string;
 }
 
 export interface FlightDto {
@@ -17,8 +17,8 @@ export interface FlightDto {
   flight_number: string;
   destination: string;
   status: FlightStatus;
-  gate: string;
-  terminal: string;
-  airline: string;
-  departure_time: string;
+  gate?: string;
+  terminal_number: string;
+  airline?: string;
+  departure_time?: string;
 }

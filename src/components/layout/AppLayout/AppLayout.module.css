@@ -19,7 +19,9 @@
 }
 
 .appLogo {
-  font-size: 55px;
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
   color: #ffcb41;
   line-height: 1;
   transform: rotate(-15deg);
@@ -121,7 +123,8 @@
 
 @media (max-width: 760px) {
   .appLogo {
-    font-size: 38px;
+    width: 38px;
+    height: 38px;
   }
 }
 

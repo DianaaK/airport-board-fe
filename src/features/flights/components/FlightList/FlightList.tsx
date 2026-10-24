@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import styles from './FlightList.module.css';
 import { PageLayout } from '../../../../components/layout/PageLayout/PageLayout';
+import { DataStatus } from '../../../../components/ui/DataStatus/DataStatus';
 import { DataTable, type ColumnDef } from '../../../../components/ui/DataTable/DataTable';
 import { DataTableHeader } from '../../../../components/ui/DataTableHeader/DataTableHeader';
 import { RefreshControls } from '../../../../components/ui/RefreshControls/RefreshControls';
@@ -17,7 +18,6 @@ import {
 } from '../../utils/flight-filters';
 import { DATA_TABLE_HEADER_COLORS, getGroupingName } from '../../utils/flight-header';
 import { FlightFilters } from '../FlightFilters/FlightFilters';
-import { RefreshStatusInfo } from '../RefreshStatusInfo/RefreshStatusInfo';
 
 const statusClasses: Record<FlightStatus, string> = {
   'On Time': styles.onTime,
@@ -25,17 +25,24 @@ const statusClasses: Record<FlightStatus, string> = {
   Cancelled: styles.cancelled,
 };
 
+const getFlightRowId = (flight: Flight) => flight.id;
+
 const flightColumns: ColumnDef<Flight>[] = [
   { field: 'flightNumber', headerName: 'Flight' },
   { field: 'destination', headerName: 'Destination' },
   {
     field: 'departureTime',
     headerName: 'Departure',
-    renderCell: ({ row }) => (
-      <time dateTime={row.departureTime} title={dateFormat.format(new Date(row.departureTime))}>
-        {timeFormat.format(new Date(row.departureTime))}
-      </time>
-    ),
+    renderCell: ({ row }) => {
+      if (!row.departureTime) {
+        return null;
+      }
+      return (
+        <time dateTime={row.departureTime} title={dateFormat.format(new Date(row.departureTime))}>
+          {timeFormat.format(new Date(row.departureTime))}
+        </time>
+      );
+    },
   },
   {
     field: 'status',
@@ -70,7 +77,7 @@ export const FlightList = () => {
   );
   const groups = useMemo(() => groupFlights(filtered, grouping), [filtered, grouping]);
 
-  const hasFlights = !!flights;
+  const hasData = flights !== undefined;
   return (
     <PageLayout>
       <div className={styles.flightBoard}>
@@ -90,14 +97,18 @@ export const FlightList = () => {
             onRefresh={refetch}
           />
         </div>
-        <RefreshStatusInfo
+        <DataStatus
+          messages={{
+            initialErrorDescription: 'No flight data is available. Try refreshing again.',
+            staleTitle: 'Flight information may be outdated.',
+          }}
           isLoading={isLoading}
           isFetching={isFetching}
-          hasFlights={hasFlights}
+          hasData={hasData}
           error={error}
         />
-        {hasFlights && (
-          <div aria-busy={isFetching && hasFlights}>
+        {hasData && (
+          <div aria-busy={isFetching && hasData}>
             {groups.size === 0 && (
               <p className={styles.empty} data-testid="empty-message">
                 No flights match the selected filters.
@@ -116,7 +127,7 @@ export const FlightList = () => {
                   subtitle={`${group.length} ${group.length === 1 ? 'flight' : 'flights'}`}
                   color={DATA_TABLE_HEADER_COLORS[index % DATA_TABLE_HEADER_COLORS.length]}
                 />
-                <DataTable rows={group} columns={flightColumns} getRowId={(flight) => flight.id} />
+                <DataTable rows={group} columns={flightColumns} getRowId={getFlightRowId} />
               </details>
             ))}
           </div>

@@ -117,6 +117,25 @@ describe('FlightList integration', () => {
     await waitFor(() => expect(screen.queryByTestId('error-title')).not.toBeInTheDocument());
   });
 
+  it('retains the last successful data and timestamp when a refresh returns malformed records', async () => {
+    const user = userEvent.setup();
+    render(<FlightList />);
+    await screen.findByTestId('cell-flightNumber-1');
+
+    server.use(
+      http.get(ENV_API_URL, () =>
+        HttpResponse.json([
+          { ...flights[0], destination: undefined },
+          { ...flights[1], departure_time: 'invalid' },
+        ]),
+      ),
+    );
+    await user.click(screen.getByTestId('refresh-button'));
+    expect(await screen.findByTestId('error-title')).toHaveTextContent(
+      'Flight information may be outdated.',
+    );
+  });
+
   it('allows recovery from an initial request failure', async () => {
     const user = userEvent.setup();
     server.use(http.get(ENV_API_URL, () => HttpResponse.error()));

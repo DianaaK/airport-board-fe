@@ -1,0 +1,16 @@
+.error {
+  padding: var(--space-6);
+  border: 1px solid var(--color-panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel-background);
+  color: var(--color-text);
+}
+
+.error h1 {
+  margin-top: 0;
+}
+
+.error p {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+}

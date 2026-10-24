@@ -1,6 +1,7 @@
 import type { ChangeEvent, InputHTMLAttributes } from 'react';
 
 import styles from './SearchField.module.css';
+import { SearchIcon } from '../../icons/SearchIcon';
 
 type SearchFieldProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -19,6 +20,7 @@ export const SearchField = ({
   ...inputProps
 }: SearchFieldProps) => (
   <span className={[styles.search, className].filter(Boolean).join(' ')}>
+    <SearchIcon className={styles.searchIcon} />
     <input
       {...inputProps}
       type="search"

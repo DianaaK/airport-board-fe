@@ -2,6 +2,18 @@ import { ENV_API_URL } from '../../../config/environment';
 import { api } from '../../../lib/api-client';
 import { type Flight, type FlightDto } from '../types/flight';
 
+const isFlightDto = (value: unknown): value is FlightDto => {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+  const record = value as Record<string, unknown>;
+  const requiredFields = ['id', 'flight_number', 'destination', 'status', 'terminal_number'];
+  if (!requiredFields.every((field) => Object.hasOwn(record, field))) {
+    return false;
+  }
+  return !record.departure_time || Number.isFinite(Date.parse(record.departure_time as string));
+};
+
 const mapFlightDtoToFlight = (dto: FlightDto): Flight => {
   return {
     id: dto.id,
@@ -9,7 +21,7 @@ const mapFlightDtoToFlight = (dto: FlightDto): Flight => {
     destination: dto.destination,
     status: dto.status,
     gate: dto.gate,
-    terminal: dto.terminal,
+    terminal: dto.terminal_number,
     airline: dto.airline,
     departureTime: dto.departure_time,
   };
@@ -20,10 +32,10 @@ export const parseFlightsResponse = (payload: unknown): Flight[] => {
     throw new Error('Invalid flight response');
   }
   return payload.map((value: unknown) => {
-    if (!value || typeof value !== 'object') {
+    if (!isFlightDto(value)) {
       throw new Error('Invalid flight record');
     }
-    return mapFlightDtoToFlight(value as FlightDto);
+    return mapFlightDtoToFlight(value);
   });
 };
 

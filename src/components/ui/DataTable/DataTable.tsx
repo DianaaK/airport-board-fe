@@ -1,4 +1,4 @@
-import type { Key, ReactNode } from 'react';
+import { memo, type Key, type ReactNode } from 'react';
 
 import styles from './DataTable.module.css';
 
@@ -19,13 +19,15 @@ type DataTableProps<Row> = {
   columns: ColumnDef<Row>[];
   getRowId: (row: Row) => Key;
   emptyMessage?: string;
+  emptyCellContent?: string;
 };
 
-export const DataTable = <Row,>({
+const DataTableComponent = <Row,>({
   rows,
   columns,
   getRowId,
   emptyMessage = 'No rows to display.',
+  emptyCellContent = '-',
 }: DataTableProps<Row>) => {
   return (
     <div className={styles.tableScroll} data-testid="data-table">
@@ -53,10 +55,10 @@ export const DataTable = <Row,>({
                   const params = { row, field: column.field, value: row[column.field] };
                   const content = column.renderCell
                     ? column.renderCell(params)
-                    : String(params.value ?? '');
+                    : params.value?.toString();
                   return (
                     <td key={column.field} data-testid={`cell-${column.field}-${getRowId(row)}`}>
-                      {content}
+                      {content ?? emptyCellContent}
                     </td>
                   );
                 })}
@@ -68,3 +70,5 @@ export const DataTable = <Row,>({
     </div>
   );
 };
+
+export const DataTable = memo(DataTableComponent) as typeof DataTableComponent;
