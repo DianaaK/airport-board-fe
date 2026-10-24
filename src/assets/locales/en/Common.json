@@ -1,0 +1,37 @@
+{
+  "actions": {
+    "returnDepartures": "Return to departures",
+    "refresh": "Refresh",
+    "reload": "Reload page"
+  },
+  "labels": {
+    "airport": "INTERNATIONAL AIRPORT",
+    "departures": "Departures",
+    "arrivals": "Arrivals",
+    "city": "BUCHAREST",
+    "localTime": "Airport local time",
+    "language": "Language",
+    "updated": "Updated",
+    "lastUpdated": "Last updated"
+  },
+  "messages": {
+    "notFound": "Page not found",
+    "emptyRows": "No rows to display.",
+    "loading": "Loading data... Please wait.",
+    "refreshing": "Refreshing data...",
+    "initialErrorTitle": "Unable to load data.",
+    "initialErrorDescription": "No data is available. Try refreshing again.",
+    "staleTitle": "Data may be outdated.",
+    "staleDescription": "The latest refresh failed. Showing the last successful data.",
+    "refreshPending": "Refreshing...",
+    "awaitingUpdate": "Awaiting update",
+    "updateFailed": "Update failed",
+    "unexpectedError": "Something went wrong",
+    "pageError": "We couldn't display this page. Please try again."
+  },
+  "formats": {
+    "time": "{{value, time}}",
+    "timeSeconds": "{{value, timeSeconds}}",
+    "date": "{{value, date}}"
+  }
+}

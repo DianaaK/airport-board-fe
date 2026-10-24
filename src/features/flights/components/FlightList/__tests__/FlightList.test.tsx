@@ -141,7 +141,7 @@ describe('FlightList integration', () => {
     server.use(http.get(ENV_API_URL, () => HttpResponse.error()));
     render(<FlightList />);
 
-    expect(await screen.findByTestId('error-title')).toHaveTextContent('Unable to load flights.');
+    expect(await screen.findByTestId('error-title')).toHaveTextContent('Unable to load data.');
     expect(screen.queryByTestId('data-table')).not.toBeInTheDocument();
 
     server.use(http.get(ENV_API_URL, () => HttpResponse.json(flights)));

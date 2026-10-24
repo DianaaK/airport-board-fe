@@ -71,6 +71,11 @@
   font-size: var(--font-size-sm);
 }
 
+.languageSelect {
+  margin-left: var(--space-5);
+  width: 120px;
+}
+
 .main {
   padding: var(--space-4) var(--space-5) var(--space-8);
   max-width: 1920px;

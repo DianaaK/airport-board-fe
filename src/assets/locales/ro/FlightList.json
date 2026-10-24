@@ -1,0 +1,31 @@
+{
+  "FlightList": {
+    "flight": "Zbor",
+    "destination": "Destinație",
+    "departure": "Plecare",
+    "status": {
+      "label": "Stare",
+      "options": {
+        "On Time": "La timp",
+        "Delayed": "Întârziat",
+        "Cancelled": "Anulat"
+      }
+    },
+    "gate": "Poartă",
+    "terminal": "Terminal",
+    "airline": "Companie aeriană",
+    "emptyFlights": "Niciun zbor nu corespunde filtrelor selectate.",
+    "flightInitialError": "Nu există date despre zboruri. Încearcă să actualizezi din nou.",
+    "flightStale": "Informațiile despre zboruri pot fi neactualizate.",
+    "flight_one": "{{count}} zbor",
+    "flight_few": "{{count}} zboruri",
+    "flight_other": "{{count}} de zboruri"
+  },
+  "FlightFilters": {
+    "allStatuses": "Toate stările",
+    "groupTerminal": "Grupează după terminal",
+    "groupGate": "Grupează după poartă",
+    "groupAirline": "Grupează după companie",
+    "search": "Caută zboruri, destinații, companii..."
+  }
+}

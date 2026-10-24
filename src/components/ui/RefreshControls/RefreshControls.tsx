@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import styles from './RefreshControls.module.css';
 import { RefreshIcon } from '../../icons/RefreshIcon';
 import { Button } from '../Button/Button';
@@ -16,15 +18,17 @@ export const RefreshControls = ({
   hasError = false,
   onRefresh,
 }: RefreshControlsProps) => {
+  const { t } = useTranslation('Common');
+
   const getUpdatedTime = () => {
     if (lastUpdated) {
-      return `${hasError ? 'Last updated' : 'Updated'} ${lastUpdated.toLocaleTimeString('en-GB', { timeZone: 'Europe/Bucharest' })}`;
+      return `${hasError ? t('labels.lastUpdated') : t('labels.updated')} ${t('formats.timeSeconds', { value: lastUpdated })}`;
     }
     if (!lastUpdated && !hasError) {
-      return 'Awaiting update';
+      return t('messages.awaitingUpdate');
     }
     if (!lastUpdated && hasError) {
-      return 'Update failed';
+      return t('messages.updateFailed');
     }
   };
 
@@ -42,7 +46,7 @@ export const RefreshControls = ({
         onClick={onRefresh}
         icon={<RefreshIcon />}
       >
-        {isFetching ? 'Refreshing...' : 'Refresh'}
+        {isFetching ? t('messages.refreshPending') : t('actions.refresh')}
       </Button>
     </div>
   );

@@ -1,10 +1,16 @@
+import { useTranslation } from 'react-i18next';
+
 import styles from './ErrorBoundary.module.css';
 import { Button } from '../Button/Button';
 
-export const ErrorBoundary = () => (
-  <section className={styles.error}>
-    <h1>Something went wrong</h1>
-    <p>We couldn't display this page. Please try again.</p>
-    <Button onClick={() => window.location.reload()}>Reload page</Button>
-  </section>
-);
+export const ErrorBoundary = () => {
+  const { t } = useTranslation('Common');
+
+  return (
+    <section className={styles.error}>
+      <h1>{t('messages.unexpectedError')}</h1>
+      <p>{t('messages.pageError')}</p>
+      <Button onClick={() => window.location.reload()}>{t('actions.reload')}</Button>
+    </section>
+  );
+};

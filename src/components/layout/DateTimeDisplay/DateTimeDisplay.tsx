@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import styles from './DateTimeDisplay.module.css';
-import { dayFormat, timeFormat } from '../../../utils/date-format';
 
 export const DateTimeDisplay = () => {
+  const { t } = useTranslation('Common');
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -13,8 +15,8 @@ export const DateTimeDisplay = () => {
 
   return (
     <time className={styles.dateDisplay} dateTime={now.toISOString()}>
-      <strong>{timeFormat.format(now)}</strong>
-      <span>{dayFormat.format(now)}</span>
+      <strong>{t('formats.time', { value: now })}</strong>
+      <span>{t('formats.date', { value: now })}</span>
     </time>
   );
 };

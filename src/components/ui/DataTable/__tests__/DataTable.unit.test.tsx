@@ -67,7 +67,6 @@ describe('DataTable', () => {
         getRowId={getRowId}
       />,
     );
-    expect(screen.getAllByTestId(/cell-count/)[0]).toBeEmptyDOMElement();
-    expect(screen.getAllByTestId(/cell-count/)[1]).toBeEmptyDOMElement();
+    expect(screen.getAllByTestId(/cell-count/).map((cell) => cell.textContent)).toEqual(['-', '-']);
   });
 });

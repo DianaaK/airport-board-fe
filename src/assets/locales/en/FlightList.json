@@ -1,0 +1,31 @@
+{
+  "FlightList": {
+    "flight": "Flight",
+    "destination": "Destination",
+    "departure": "Departure",
+    "status": {
+      "label": "Status",
+      "options": {
+        "On Time": "On Time",
+        "Delayed": "Delayed",
+        "Cancelled": "Cancelled"
+      }
+    },
+    "gate": "Gate",
+    "terminal": "Terminal",
+    "airline": "Airline",
+    "emptyFlights": "No flights match the selected filters.",
+    "flightInitialError": "No flight data is available. Try refreshing again.",
+    "flightStale": "Flight information may be outdated.",
+    "flight_one": "{{count}} flight",
+    "flight_few": "{{count}} flights",
+    "flight_other": "{{count}} flights"
+  },
+  "FlightFilters": {
+    "allStatuses": "All statuses",
+    "groupTerminal": "Group by terminal",
+    "groupGate": "Group by gate",
+    "groupAirline": "Group by airline",
+    "search": "Search flights, destinations, airlines..."
+  }
+}

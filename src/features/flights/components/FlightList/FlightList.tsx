@@ -1,5 +1,8 @@
 import { useMemo, useState } from 'react';
 
+import type { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
+
 import styles from './FlightList.module.css';
 import { PageLayout } from '../../../../components/layout/PageLayout/PageLayout';
 import { DataStatus } from '../../../../components/ui/DataStatus/DataStatus';
@@ -7,7 +10,6 @@ import { DataTable, type ColumnDef } from '../../../../components/ui/DataTable/D
 import { DataTableHeader } from '../../../../components/ui/DataTableHeader/DataTableHeader';
 import { RefreshControls } from '../../../../components/ui/RefreshControls/RefreshControls';
 import { useInterval } from '../../../../hooks/useInterval/useInterval';
-import { dateFormat, timeFormat } from '../../../../utils/date-format';
 import { useGetFlights } from '../../hooks/useGetFlights';
 import { type Flight, type FlightStatus } from '../../types/flight';
 import {
@@ -16,7 +18,6 @@ import {
   type FlightStatusFilter,
   type FlightGroupOption,
 } from '../../utils/flight-filters';
-import { DATA_TABLE_HEADER_COLORS, getGroupingName } from '../../utils/flight-header';
 import { FlightFilters } from '../FlightFilters/FlightFilters';
 
 const statusClasses: Record<FlightStatus, string> = {
@@ -25,44 +26,63 @@ const statusClasses: Record<FlightStatus, string> = {
   Cancelled: styles.cancelled,
 };
 
+const DATA_TABLE_HEADER_COLORS = ['yellow', 'blue', 'green', 'purple', 'pink'] as const;
+
 const getFlightRowId = (flight: Flight) => flight.id;
 
-const flightColumns: ColumnDef<Flight>[] = [
-  { field: 'flightNumber', headerName: 'Flight' },
-  { field: 'destination', headerName: 'Destination' },
-  {
-    field: 'departureTime',
-    headerName: 'Departure',
-    renderCell: ({ row }) => {
-      if (!row.departureTime) {
-        return null;
-      }
-      return (
-        <time dateTime={row.departureTime} title={dateFormat.format(new Date(row.departureTime))}>
-          {timeFormat.format(new Date(row.departureTime))}
-        </time>
-      );
+const getFlightColumns = (
+  t: TFunction<'FlightList', 'FlightList'>,
+  tCommon: TFunction<'Common'>,
+): ColumnDef<Flight>[] => {
+  return [
+    { field: 'flightNumber', headerName: t('flight') },
+    { field: 'destination', headerName: t('destination') },
+    {
+      field: 'departureTime',
+      headerName: t('departure'),
+      renderCell: ({ row }) => {
+        if (!row.departureTime) {
+          return null;
+        }
+        return (
+          <time
+            dateTime={row.departureTime}
+            title={tCommon('formats.date', {
+              value: new Date(row.departureTime),
+              formatParams: { value: { format: { dateStyle: 'medium', timeStyle: 'medium' } } },
+            })}
+          >
+            {tCommon('formats.time', { value: new Date(row.departureTime) })}
+          </time>
+        );
+      },
     },
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => (
-      <span className={`${styles.badge} ${statusClasses[row.status]}`}>{row.status}</span>
-    ),
-  },
-  { field: 'gate', headerName: 'Gate' },
-  { field: 'terminal', headerName: 'Terminal' },
-  {
-    field: 'airline',
-    headerName: 'Airline',
-    renderCell: ({ row }) => <span className={styles.airlineName}>{row.airline}</span>,
-  },
-];
+    {
+      field: 'status',
+      headerName: t('status.label'),
+      renderCell: ({ row }) => (
+        <span className={`${styles.badge} ${statusClasses[row.status]}`}>
+          {t(`status.options.${row.status}`)}
+        </span>
+      ),
+    },
+    { field: 'gate', headerName: t('gate') },
+    { field: 'terminal', headerName: t('terminal') },
+    {
+      field: 'airline',
+      headerName: t('airline'),
+      renderCell: ({ row }) =>
+        row.airline ? <span className={styles.airlineName}>{row.airline}</span> : null,
+    },
+  ];
+};
 
 const REFRESH_INTERVAL = 30_000;
 
 export const FlightList = () => {
+  const { t } = useTranslation('FlightList', { keyPrefix: 'FlightList' });
+  const { t: tCommon } = useTranslation('Common');
+
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<FlightStatusFilter>('all');
   const [grouping, setGrouping] = useState<FlightGroupOption>('terminal');
@@ -76,6 +96,18 @@ export const FlightList = () => {
     [flights, status, search],
   );
   const groups = useMemo(() => groupFlights(filtered, grouping), [filtered, grouping]);
+  const flightColumns = useMemo(() => getFlightColumns(t, tCommon), [t, tCommon]);
+
+  const getGroupingName = (grouping: FlightGroupOption, value: string) => {
+    switch (grouping) {
+      case 'terminal':
+        return `${t('terminal')} ${value}`;
+      case 'gate':
+        return `${t('gate')} ${value}`;
+      default:
+        return value;
+    }
+  };
 
   const hasData = flights !== undefined;
   return (
@@ -97,21 +129,12 @@ export const FlightList = () => {
             onRefresh={refetch}
           />
         </div>
-        <DataStatus
-          messages={{
-            initialErrorDescription: 'No flight data is available. Try refreshing again.',
-            staleTitle: 'Flight information may be outdated.',
-          }}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          hasData={hasData}
-          error={error}
-        />
+        <DataStatus isLoading={isLoading} isFetching={isFetching} hasData={hasData} error={error} />
         {hasData && (
           <div aria-busy={isFetching && hasData}>
             {groups.size === 0 && (
               <p className={styles.empty} data-testid="empty-message">
-                No flights match the selected filters.
+                {t('emptyFlights')}
               </p>
             )}
             {[...groups].map(([name, group], index) => (
@@ -124,7 +147,7 @@ export const FlightList = () => {
                 <DataTableHeader
                   value={grouping === 'airline' ? name.charAt(0) : name}
                   title={getGroupingName(grouping, name)}
-                  subtitle={`${group.length} ${group.length === 1 ? 'flight' : 'flights'}`}
+                  subtitle={t('flight', { count: group.length })}
                   color={DATA_TABLE_HEADER_COLORS[index % DATA_TABLE_HEADER_COLORS.length]}
                 />
                 <DataTable rows={group} columns={flightColumns} getRowId={getFlightRowId} />

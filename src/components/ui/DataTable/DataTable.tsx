@@ -1,5 +1,7 @@
 import { memo, type Key, type ReactNode } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import styles from './DataTable.module.css';
 
 export type CellParams<Row> = {
@@ -26,9 +28,11 @@ const DataTableComponent = <Row,>({
   rows,
   columns,
   getRowId,
-  emptyMessage = 'No rows to display.',
+  emptyMessage,
   emptyCellContent = '-',
 }: DataTableProps<Row>) => {
+  const { t } = useTranslation('Common', { keyPrefix: 'messages' });
+
   return (
     <div className={styles.tableScroll} data-testid="data-table">
       <table className={styles.table}>
@@ -45,7 +49,7 @@ const DataTableComponent = <Row,>({
           {!rows.length ? (
             <tr>
               <td colSpan={columns.length} data-testid="cell-empty">
-                {emptyMessage}
+                {emptyMessage ?? t('emptyRows')}
               </td>
             </tr>
           ) : (

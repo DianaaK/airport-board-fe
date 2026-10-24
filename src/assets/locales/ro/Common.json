@@ -1,0 +1,37 @@
+{
+  "actions": {
+    "returnDepartures": "Înapoi la plecări",
+    "refresh": "Actualizează",
+    "reload": "Reîncarcă pagina"
+  },
+  "labels": {
+    "airport": "AEROPORT INTERNAȚIONAL",
+    "departures": "Plecări",
+    "arrivals": "Sosiri",
+    "city": "BUCUREȘTI",
+    "localTime": "Ora locală a aeroportului",
+    "language": "Limbă",
+    "updated": "Actualizat la",
+    "lastUpdated": "Ultima actualizare la"
+  },
+  "messages": {
+    "notFound": "Pagina nu a fost găsită",
+    "emptyRows": "Nu există înregistrări.",
+    "loading": "Se încarcă datele... Te rugăm să aștepți.",
+    "refreshing": "Se actualizează datele...",
+    "initialErrorTitle": "Datele nu au putut fi încărcate.",
+    "initialErrorDescription": "Nu există date disponibile. Încearcă să actualizezi din nou.",
+    "staleTitle": "Datele pot fi neactualizate.",
+    "staleDescription": "Ultima actualizare a eșuat. Sunt afișate ultimele date încărcate cu succes.",
+    "refreshPending": "Se actualizează...",
+    "awaitingUpdate": "Se așteaptă actualizarea",
+    "updateFailed": "Actualizarea a eșuat",
+    "unexpectedError": "A apărut o problemă",
+    "pageError": "Pagina nu a putut fi afișată. Încearcă din nou."
+  },
+  "formats": {
+    "time": "{{value, time}}",
+    "timeSeconds": "{{value, time}}",
+    "date": "{{value, date}}"
+  }
+}
