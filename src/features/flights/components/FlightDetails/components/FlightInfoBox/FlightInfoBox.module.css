@@ -1,8 +1,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 20px;
-  border-top: 1px solid #1b3042;
+  margin: var(--space-5) 0 0;
+  border-top: 1px solid var(--color-panel-border);
 }
 
 .cell {
@@ -22,7 +22,7 @@
   top: 20px;
   bottom: 20px;
   width: 1px;
-  background: #1b3042;
+  background: var(--color-panel-border);
 }
 
 .cell:nth-child(3n) {
@@ -32,43 +32,19 @@
   padding-left: 0;
 }
 .cell:nth-child(n + 4) {
-  border-top: 1px solid #1b3042;
+  border-top: 1px solid var(--color-panel-border);
 }
 
 .gateTerminal {
   flex-direction: row;
   gap: 8px;
 }
-.section {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 9px;
-  min-width: 0;
-}
-.section + .section {
-  border-left: 1px solid #1b3042;
-  padding-left: 8px;
-}
-.label {
-  color: #91aac3;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-.value {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 14px;
-  overflow-wrap: anywhere;
+.gateTerminal > div + div {
+  border-left: 1px solid var(--color-panel-border);
+  padding-left: var(--space-2);
 }
 .grid time {
   font-size: 22px;
-  color: #f3f6fc;
+  color: var(--color-text);
   font-weight: 600;
-}
-.grid small {
-  display: block;
-  font-size: 11px;
 }

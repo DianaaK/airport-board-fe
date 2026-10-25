@@ -17,7 +17,7 @@
 }
 
 .flightGroup {
-  border-bottom: 1px solid #213442;
+  border-bottom: 1px solid var(--color-panel-border);
 }
 
 .flightGroup:last-child {
@@ -33,7 +33,7 @@
 .empty {
   padding: 36px;
   text-align: center;
-  color: #9cb4ca;
+  color: var(--color-text-muted);
 }
 
 @media (max-width: 760px) {

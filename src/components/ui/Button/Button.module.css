@@ -6,7 +6,7 @@
   border: 1px solid var(--color-control-border);
   border-radius: var(--radius-control);
   background: #09152290;
-  color: var(--color-control-text);
+  color: var(--color-text);
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;

@@ -15,7 +15,7 @@
 }
 
 .search input::placeholder {
-  color: #a9b0b8;
+  color: var(--color-text-muted);
 }
 
 .searchIcon {
@@ -24,6 +24,6 @@
   top: 13px;
   width: 21px;
   height: 21px;
-  color: #a1b5ca;
+  color: var(--color-text-muted);
   pointer-events: none;
 }

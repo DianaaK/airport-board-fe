@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--space-8);
   padding: var(--space-5) var(--space-8);
-  border-bottom: 1px solid #213342;
+  border-bottom: 1px solid var(--color-panel-border);
   background:
     linear-gradient(90deg, #04111dec 22%, #08142180 55%, #08121cec),
     radial-gradient(ellipse at 65% 100%, #bd644f 0, #624741 20%, #0b1a28 60%);
@@ -22,7 +22,7 @@
   width: 55px;
   height: 55px;
   flex-shrink: 0;
-  color: #ffcb41;
+  color: var(--color-accent);
   line-height: 1;
   transform: rotate(-15deg);
 }
@@ -36,7 +36,7 @@
 .appBrand div > span {
   font-size: var(--font-size-sm);
   letter-spacing: 1.7px;
-  color: #a9bed3;
+  color: var(--color-text-muted);
   display: block;
   margin-top: var(--space-1);
 }
@@ -47,20 +47,20 @@
 }
 
 .arrivalsButton {
-  border-color: #344555;
-  color: #a8bad0;
+  border-color: var(--color-control-border);
+  color: var(--color-text-muted);
 }
 
 .departuresButton {
   border-color: #d5a32d;
-  color: #ffcf35;
+  color: var(--color-accent);
 }
 
 .headerLocation {
   margin-left: auto;
   font-size: var(--font-size-sm);
   letter-spacing: 1.5px;
-  color: #aebfd0;
+  color: var(--color-text-muted);
   text-align: right;
 }
 

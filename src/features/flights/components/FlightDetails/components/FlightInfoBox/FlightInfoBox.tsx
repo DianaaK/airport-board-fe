@@ -1,19 +1,10 @@
-import type { ReactNode } from 'react';
-
 import { useTranslation } from 'react-i18next';
 
-import { Badge } from '@components/ui/Badge/Badge';
-import { FLIGHT_STATUS_COLORS } from '@features/flights/constants/flight.constants';
+import { InfoItem } from '@components/ui/InfoItem/InfoItem';
 import type { FlightDetails } from '@features/flights/types/flight-details.types';
 
 import styles from './FlightInfoBox.module.css';
-
-const renderCell = (label: string, value?: string | ReactNode | null) => (
-  <div className={styles.section}>
-    <span className={styles.label}>{label}</span>
-    <div className={styles.value}>{value || '-'}</div>
-  </div>
-);
+import { FlightStatusBadge } from '../../../FlightStatusBadge/FlightStatusBadge';
 
 export const FlightInfoBox = ({ flight }: { flight: FlightDetails }) => {
   const { t } = useTranslation(['FlightList', 'Common']);
@@ -21,47 +12,41 @@ export const FlightInfoBox = ({ flight }: { flight: FlightDetails }) => {
   return (
     <div className={styles.grid}>
       <div className={styles.cell}>
-        {renderCell(
-          t('FlightList.departure'),
-          flight.departureTime ? (
-            <>
-              <time dateTime={flight.departureTime.toISOString()}>
-                {t('Common:formats.time', { value: flight.departureTime })}
-              </time>
-              <small>{t('Common:formats.date', { value: flight.departureTime })}</small>
-            </>
-          ) : (
-            '—'
-          ),
-        )}
+        <InfoItem
+          label={t('FlightList.departure')}
+          value={
+            flight.departureTime ? t('Common:formats.time', { value: flight.departureTime }) : null
+          }
+        />
       </div>
       <div className={`${styles.cell} ${styles.gateTerminal}`}>
-        {renderCell(t('FlightList.gate'), flight.gate)}
-        {renderCell(t('FlightList.terminal'), flight.terminal)}
+        <InfoItem label={t('FlightList.gate')} value={flight.gate} />
+        <InfoItem label={t('FlightList.terminal')} value={flight.terminal} />
       </div>
       <div className={styles.cell}>
-        {renderCell(
-          t('FlightList.status.label'),
-          <Badge
-            text={t(`FlightList.status.options.${flight.status}`)}
-            color={FLIGHT_STATUS_COLORS[flight.status]}
-          />,
-        )}
+        <InfoItem
+          label={t('FlightList.status.label')}
+          value={<FlightStatusBadge status={flight.status} />}
+        />
       </div>
       <div className={styles.cell}>
-        {renderCell(
-          t('FlightDetails.duration'),
-          flight.durationMinutes
-            ? t('FlightDetails.durationValue', {
-                hours: Math.floor(flight.durationMinutes / 60),
-                minutes: flight.durationMinutes % 60,
-              })
-            : null,
-        )}
+        <InfoItem
+          label={t('FlightDetails.duration')}
+          value={
+            flight.durationMinutes
+              ? t('FlightDetails.durationValue', {
+                  hours: Math.floor(flight.durationMinutes / 60),
+                  minutes: flight.durationMinutes % 60,
+                })
+              : null
+          }
+        />
       </div>
-      <div className={styles.cell}>{renderCell(t('FlightDetails.aircraft'), flight.aircraft)}</div>
       <div className={styles.cell}>
-        {renderCell(t('FlightDetails.registration'), flight.registration)}
+        <InfoItem label={t('FlightDetails.aircraft')} value={flight.aircraft} />
+      </div>
+      <div className={styles.cell}>
+        <InfoItem label={t('FlightDetails.registration')} value={flight.registration} />
       </div>
     </div>
   );

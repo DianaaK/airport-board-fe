@@ -1,9 +1,9 @@
 @import './styles/tokens.css';
 
 :root {
-  font-family: var(--font-family-sans);
+  font-family: 'Segoe UI', system-ui, sans-serif;
   color: var(--color-text);
-  background: var(--color-background);
+  background: #040d14;
   color-scheme: dark;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -16,8 +16,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  background:
-    radial-gradient(ellipse at 65% 0%, #182637 0, transparent 45%), var(--color-background);
+  background: radial-gradient(ellipse at 65% 0%, #182637 0, transparent 45%), #040d14;
   min-height: 100vh;
 }
 
@@ -41,7 +40,7 @@ input {
   border: 1px solid var(--color-control-border);
   border-radius: var(--radius-control);
   background: linear-gradient(140deg, var(--color-control-background), #09131d);
-  color: var(--color-control-text);
+  color: var(--color-text);
   padding: 9px 14px;
 }
 
@@ -52,11 +51,6 @@ button {
 button:disabled {
   cursor: default;
   opacity: 0.5;
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 4px;
 }
 
 p {

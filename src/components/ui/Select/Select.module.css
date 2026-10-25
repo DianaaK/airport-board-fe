@@ -12,5 +12,5 @@
 }
 .select option {
   background-color: var(--color-control-background);
-  color: var(--color-control-text);
+  color: var(--color-text);
 }

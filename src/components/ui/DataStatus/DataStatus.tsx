@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
 import styles from './DataStatus.module.css';
+import { FeedbackMessage } from '../FeedbackMessage/FeedbackMessage';
+import { Text } from '../Text/Text';
 
 type DataStatusProps = {
   isLoading: boolean;
@@ -12,27 +14,32 @@ type DataStatusProps = {
 export const DataStatus = ({ isLoading, isFetching, hasData, error }: DataStatusProps) => {
   const { t } = useTranslation('Common', { keyPrefix: 'messages' });
 
-  const renderError = (title: string, description: string) => (
-    <div className={styles.error}>
-      <strong data-testid="error-title">{title}</strong>
-      <p data-testid="error-text">{description}</p>
-    </div>
-  );
-
   return (
     <>
       {isLoading && (
-        <div className={styles.update} data-testid="loading">
+        <Text component="div" className={styles.update} data-testid="loading">
           {t('loading')}
-        </div>
+        </Text>
       )}
       {isFetching && hasData && (
-        <div className={styles.update} data-testid="refreshing">
+        <Text component="div" className={styles.update} data-testid="refreshing">
           {t('refreshing')}
-        </div>
+        </Text>
       )}
-      {error && !hasData && renderError(t('initialErrorTitle'), t('initialErrorDescription'))}
-      {error && hasData && renderError(t('staleTitle'), t('staleDescription'))}
+      {error && !hasData && (
+        <FeedbackMessage
+          className={styles.error}
+          title={t('initialErrorTitle')}
+          description={t('initialErrorDescription')}
+        />
+      )}
+      {error && hasData && (
+        <FeedbackMessage
+          className={styles.error}
+          title={t('staleTitle')}
+          description={t('staleDescription')}
+        />
+      )}
     </>
   );
 };

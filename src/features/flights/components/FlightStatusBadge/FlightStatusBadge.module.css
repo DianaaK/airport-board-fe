@@ -7,12 +7,12 @@
 }
 
 .green {
-  color: #25efac;
+  color: var(--color-success);
   background: #033f325e;
 }
 
 .yellow {
-  color: #ffbd16;
+  color: var(--color-accent);
   background: #62460b50;
 }
 

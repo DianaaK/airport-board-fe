@@ -4,12 +4,13 @@ import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 import { useInterval } from '@/hooks/useInterval/useInterval';
-import { Badge } from '@components/ui/Badge/Badge';
 import { DataStatus } from '@components/ui/DataStatus/DataStatus';
 import { DataTable, type ColumnDef } from '@components/ui/DataTable/DataTable';
 import { DataTableHeader } from '@components/ui/DataTableHeader/DataTableHeader';
 import { RefreshControls } from '@components/ui/RefreshControls/RefreshControls';
+import { Text } from '@components/ui/Text/Text';
 
+import { FlightStatusBadge } from '../FlightStatusBadge/FlightStatusBadge';
 import { FlightFilters } from './components/FlightFilters/FlightFilters';
 import styles from './FlightList.module.css';
 import {
@@ -18,7 +19,6 @@ import {
   filterFlights,
   groupFlights,
 } from './utils/flight-filters.utils';
-import { FLIGHT_STATUS_COLORS } from '../../constants/flight.constants';
 import { useGetFlights } from '../../hooks/useGetFlights/useGetFlights';
 import type { Flight } from '../../types/flight.types';
 
@@ -60,9 +60,7 @@ const getFlightColumns = (
     {
       field: 'status',
       headerName: t('status.label'),
-      renderCell: ({ row }) => (
-        <Badge text={t(`status.options.${row.status}`)} color={FLIGHT_STATUS_COLORS[row.status]} />
-      ),
+      renderCell: ({ row }) => <FlightStatusBadge status={row.status} />,
     },
     { field: 'gate', headerName: t('gate') },
     { field: 'terminal', headerName: t('terminal') },
@@ -137,9 +135,9 @@ export const FlightList = ({ onSelectFlight }: FlightListProps) => {
       {hasData && (
         <div>
           {groups.size === 0 && (
-            <p className={styles.empty} data-testid="empty-message">
+            <Text component="p" tone="muted" className={styles.empty} data-testid="empty-message">
               {t('emptyFlights')}
-            </p>
+            </Text>
           )}
           {[...groups].map(([name, group], index) => (
             <details

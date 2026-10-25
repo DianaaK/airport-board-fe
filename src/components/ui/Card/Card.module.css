@@ -1,6 +1,6 @@
 .card {
   padding: 24px 20px;
-  color: #dbe7f5;
+  color: var(--color-text);
   background: linear-gradient(150deg, #091622, #050f17);
   border-radius: var(--radius-panel);
 }
@@ -25,7 +25,7 @@
 .close {
   border: 0;
   background: none;
-  color: #a7bdd2;
+  color: var(--color-text-muted);
   font-size: 28px;
   padding: 0 0 0 4px;
   cursor: pointer;

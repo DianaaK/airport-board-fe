@@ -73,7 +73,7 @@
 .groupTitle small {
   display: block;
   margin-top: 3px;
-  color: #94acc2;
+  color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
 

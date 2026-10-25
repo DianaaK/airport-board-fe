@@ -20,7 +20,7 @@
 
 .map :global(.leaflet-control-attribution) {
   background: #07121fdd;
-  color: #9bb1c6;
+  color: var(--color-text-muted);
   font-size: 9px;
 }
 
@@ -30,7 +30,7 @@
 
 .mapLabel {
   background: #0b1c2be6;
-  color: #f1f5fc;
+  color: var(--color-text);
   border: 0;
   box-shadow: none;
 }

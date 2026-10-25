@@ -1,0 +1,20 @@
+.airport {
+  flex: 1;
+  min-width: 0;
+}
+
+.destination {
+  text-align: right;
+}
+
+.code {
+  display: block;
+  font-size: 24px;
+  color: var(--color-text);
+}
+
+.description {
+  display: block;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
