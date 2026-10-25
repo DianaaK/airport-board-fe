@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router';
 
-import styles from './AppLayout.module.css';
-import { ArrivalsIcon } from '../../icons/ArrivalsIcon';
-import { DeparturesIcon } from '../../icons/DeparturesIcon';
-import { LogoIcon } from '../../icons/LogoIcon';
-import { Button } from '../../ui/Button/Button';
-import { Select } from '../../ui/Select/Select';
-import { DateTimeDisplay } from '../DateTimeDisplay/DateTimeDisplay';
+import { ArrivalsIcon } from '@components/icons/ArrivalsIcon';
+import { DeparturesIcon } from '@components/icons/DeparturesIcon';
+import { LogoIcon } from '@components/icons/LogoIcon';
+import styles from '@components/layout/AppLayout/AppLayout.module.css';
+import { DateTimeDisplay } from '@components/layout/DateTimeDisplay/DateTimeDisplay';
+import { Button } from '@components/ui/Button/Button';
+import { Select } from '@components/ui/Select/Select';
 
 const LANGUAGE_OPTIONS = [
   { value: 'en', label: 'English' },

@@ -5,17 +5,27 @@ import { useTranslation } from 'react-i18next';
 import { CircleMarker, MapContainer, Polyline, TileLayer, Tooltip } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
+
+import type { Airport } from '@features/flights/types/flight-details.types';
+
 import styles from './FlightRouteMap.module.css';
-import type { Airport } from '../../../../types/flight-details';
 
 type FlightRouteMapProps = {
-  origin: Airport;
-  destination: Airport;
+  origin: Airport | null;
+  destination: Airport | null;
 };
 
 export const FlightRouteMap = ({ origin, destination }: FlightRouteMapProps) => {
   const { t } = useTranslation('FlightList', { keyPrefix: 'FlightDetails' });
   const [tilesUnavailable, setTilesUnavailable] = useState(false);
+
+  if (!origin?.latitude || !origin.longitude || !destination?.latitude || !destination.longitude) {
+    return (
+      <div className={`${styles.mapFrame} ${styles.map}`}>
+        <span className={styles.mapNotice}>{t('routeUnavailable')}</span>
+      </div>
+    );
+  }
 
   const departure: LatLngTuple = [origin.latitude, origin.longitude];
   const arrival: LatLngTuple = [destination.latitude, destination.longitude];
@@ -54,7 +64,7 @@ export const FlightRouteMap = ({ origin, destination }: FlightRouteMapProps) => 
             pathOptions={{ color: '#ffca54', fillColor: '#ffca54', fillOpacity: 1 }}
           >
             <Tooltip permanent direction="bottom" className={styles.mapLabel}>
-              <strong>{airport.code}</strong>
+              <strong>{airport.code || '—'}</strong>
             </Tooltip>
           </CircleMarker>
         ))}

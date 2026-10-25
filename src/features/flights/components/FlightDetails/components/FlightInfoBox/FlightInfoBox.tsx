@@ -2,33 +2,33 @@ import type { ReactNode } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import styles from './FlightInfoBox.module.css';
-import { Badge } from '../../../../../../components/ui/Badge/Badge';
-import type { FlightDetails } from '../../../../types/flight-details';
-import { FLIGHT_STATUS_COLORS } from '../../../../utils/flight-status';
+import { Badge } from '@components/ui/Badge/Badge';
+import { FLIGHT_STATUS_COLORS } from '@features/flights/constants/flight.constants';
+import type { FlightDetails } from '@features/flights/types/flight-details.types';
 
-const renderCell = (label: string, value: ReactNode) => (
+import styles from './FlightInfoBox.module.css';
+
+const renderCell = (label: string, value?: string | ReactNode | null) => (
   <div className={styles.section}>
     <span className={styles.label}>{label}</span>
-    <div className={styles.value}>{value}</div>
+    <div className={styles.value}>{value || '-'}</div>
   </div>
 );
 
 export const FlightInfoBox = ({ flight }: { flight: FlightDetails }) => {
   const { t } = useTranslation(['FlightList', 'Common']);
-  const departure = flight.departureTime ? new Date(flight.departureTime) : undefined;
 
   return (
     <div className={styles.grid}>
       <div className={styles.cell}>
         {renderCell(
           t('FlightList.departure'),
-          departure ? (
+          flight.departureTime ? (
             <>
-              <time dateTime={flight.departureTime}>
-                {t('Common:formats.time', { value: departure })}
+              <time dateTime={flight.departureTime.toISOString()}>
+                {t('Common:formats.time', { value: flight.departureTime })}
               </time>
-              <small>{t('Common:formats.date', { value: departure })}</small>
+              <small>{t('Common:formats.date', { value: flight.departureTime })}</small>
             </>
           ) : (
             '—'
@@ -36,7 +36,7 @@ export const FlightInfoBox = ({ flight }: { flight: FlightDetails }) => {
         )}
       </div>
       <div className={`${styles.cell} ${styles.gateTerminal}`}>
-        {renderCell(t('FlightList.gate'), flight.gate ?? '—')}
+        {renderCell(t('FlightList.gate'), flight.gate)}
         {renderCell(t('FlightList.terminal'), flight.terminal)}
       </div>
       <div className={styles.cell}>
@@ -51,10 +51,12 @@ export const FlightInfoBox = ({ flight }: { flight: FlightDetails }) => {
       <div className={styles.cell}>
         {renderCell(
           t('FlightDetails.duration'),
-          t('FlightDetails.durationValue', {
-            hours: Math.floor(flight.durationMinutes / 60),
-            minutes: flight.durationMinutes % 60,
-          }),
+          flight.durationMinutes
+            ? t('FlightDetails.durationValue', {
+                hours: Math.floor(flight.durationMinutes / 60),
+                minutes: flight.durationMinutes % 60,
+              })
+            : null,
         )}
       </div>
       <div className={styles.cell}>{renderCell(t('FlightDetails.aircraft'), flight.aircraft)}</div>

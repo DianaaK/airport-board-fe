@@ -27,6 +27,7 @@ export default defineConfig([
     },
     settings: {
       react: { version: 'detect' },
+      'import-x/internal-regex': '^(@/|@(components|config|features|hooks|lib|pages)/)',
       'import-x/resolver': { typescript: { project: './tsconfig.app.json' } },
     },
     rules: {

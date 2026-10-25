@@ -22,7 +22,7 @@ describe('DataStatus', () => {
     render(<DataStatus {...mockProps} error={new Error('offline')} />);
     expect(screen.getByTestId('error-title')).toHaveTextContent('Unable to load data.');
     expect(screen.getByTestId('error-text')).toHaveTextContent(
-      'No data is available. Try refreshing again.',
+      'No data is available. Try again later.',
     );
   });
 

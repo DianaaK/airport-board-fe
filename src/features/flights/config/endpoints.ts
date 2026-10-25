@@ -1,4 +1,4 @@
-import { ENV_API_MODE, ENV_API_URL } from '../../../config/environment';
+import { ENV_API_MODE, ENV_API_URL } from '@config/environment';
 
 const local = {
   getAll: () => `${ENV_API_URL}/flights`,

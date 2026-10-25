@@ -1,4 +1,4 @@
-import { ResponseType, type RequestOptions } from '../types/api.ts';
+import { ResponseType, type RequestOptions } from '@/types/api.ts';
 
 export class ApiError extends Error {
   readonly status: number;

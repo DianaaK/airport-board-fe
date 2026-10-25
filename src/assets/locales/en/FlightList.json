@@ -40,6 +40,7 @@
     "durationValue": "{{hours}}h {{minutes}}m",
     "routeMap": "Route from {{origin}} to {{destination}}",
     "mapLoading": "Loading route map…",
+    "routeUnavailable": "Airport coordinates are unavailable. The route map cannot be displayed.",
     "mapUnavailable": "Map tiles are unavailable. Route and airport markers remain visible.",
     "routeNote": "Route overview — not an operational flight path.",
     "terminalNote": "Terminal and gate schematic. An airport floor plan is not available.",

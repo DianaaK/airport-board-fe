@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@components/ui/Button/Button';
+
 import styles from './ErrorBoundary.module.css';
-import { Button } from '../Button/Button';
 
 export const ErrorBoundary = () => {
   const { t } = useTranslation('Common');

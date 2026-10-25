@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
+import { RefreshIcon } from '@components/icons/RefreshIcon';
+import { Button } from '@components/ui/Button/Button';
+
 import styles from './RefreshControls.module.css';
-import { RefreshIcon } from '../../icons/RefreshIcon';
-import { Button } from '../Button/Button';
 
 export type RefreshControlsProps = {
   isFetching: boolean;

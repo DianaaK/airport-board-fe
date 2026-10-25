@@ -1,4 +1,4 @@
-import type { Flight, FlightStatus } from '../types/flight';
+import type { FlightStatus, Flight } from '@features/flights/types/flight.types';
 
 export type FlightGroupOption = 'terminal' | 'gate' | 'airline';
 export type FlightStatusFilter = FlightStatus | 'all';

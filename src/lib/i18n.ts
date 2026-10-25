@@ -1,10 +1,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import enCommon from '../assets/locales/en/Common.json';
-import enFlightlist from '../assets/locales/en/FlightList.json';
-import roCommon from '../assets/locales/ro/Common.json';
-import roFlightlist from '../assets/locales/ro/FlightList.json';
+import enCommon from '@/assets/locales/en/Common.json';
+import enFlightlist from '@/assets/locales/en/FlightList.json';
+import roCommon from '@/assets/locales/ro/Common.json';
+import roFlightlist from '@/assets/locales/ro/FlightList.json';
 
 const storageKey = 'language';
 

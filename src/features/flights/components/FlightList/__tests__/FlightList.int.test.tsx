@@ -1,11 +1,12 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { server } from '../../../../../test/server';
-import { flights } from '../../../api/getFlights/mocks/getFlights.mock';
-import { FLIGHTS_ENDPOINTS } from '../../../config/endpoints';
+import { server } from '@/test/server';
+import { flights } from '@features/flights/api/getFlights/mocks/getFlights.mock';
+import { FLIGHTS_ENDPOINTS } from '@features/flights/config/endpoints';
+
 import { FlightList } from '../FlightList';
 
 beforeEach(() => {
@@ -13,8 +14,19 @@ beforeEach(() => {
 });
 
 describe('FlightList integration', () => {
+  const mockOnSelectFlight = vi.fn();
+
+  it('reports the selected ID to its parent without opening its own details panel', async () => {
+    const user = userEvent.setup();
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
+
+    await user.click(await screen.findByTestId('cell-flightNumber-1'));
+    expect(mockOnSelectFlight).toHaveBeenCalledWith('1');
+    expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
+  });
+
   it('shows loading, then renders flights grouped by terminal with counts', async () => {
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
     expect(screen.getByTestId('loading')).toBeInTheDocument();
     expect(screen.getByTestId('refresh-button')).toBeDisabled();
 
@@ -31,7 +43,7 @@ describe('FlightList integration', () => {
 
   it('combines search and status filters, and shows an empty state for no matches', async () => {
     const user = userEvent.setup();
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
 
     await screen.findByTestId('cell-flightNumber-1');
     const search = screen.getByRole('searchbox');
@@ -50,7 +62,7 @@ describe('FlightList integration', () => {
 
   it('regroups flights by gate and airline', async () => {
     const user = userEvent.setup();
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
 
     await screen.findByTestId('cell-flightNumber-1');
     const grouping = screen.getByTestId('grouping-select');
@@ -75,7 +87,7 @@ describe('FlightList integration', () => {
 
   it('refreshes manually while retaining visible data and preventing duplicate refreshes', async () => {
     const user = userEvent.setup();
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
     await screen.findByTestId('cell-flightNumber-1');
 
     let releaseResolve!: () => void;
@@ -103,7 +115,7 @@ describe('FlightList integration', () => {
 
   it('retains flights after refresh failure and clears the warning after recovery', async () => {
     const user = userEvent.setup();
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
     await screen.findByTestId('cell-flightNumber-1');
 
     server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => new HttpResponse(null, { status: 503 })));
@@ -115,27 +127,30 @@ describe('FlightList integration', () => {
     await waitFor(() => expect(screen.queryByTestId('error-title')).not.toBeInTheDocument());
   });
 
-  it('retains the last successful data and timestamp when a refresh returns malformed records', async () => {
+  it('accepts partial refreshed records and hides only their unusable fields', async () => {
     const user = userEvent.setup();
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
     await screen.findByTestId('cell-flightNumber-1');
 
     server.use(
       http.get(FLIGHTS_ENDPOINTS.getAll(), () =>
         HttpResponse.json([
-          { ...flights[0], destination: undefined },
+          { ...flights[0], gate: undefined },
           { ...flights[1], departure_time: 'invalid' },
         ]),
       ),
     );
     await user.click(screen.getByTestId('refresh-button'));
-    expect(await screen.findByTestId('error-title')).toHaveTextContent('Data may be outdated.');
+    await waitFor(() => expect(screen.getByTestId('cell-gate-1')).toHaveTextContent('-'));
+    expect(screen.getByTestId('cell-flightNumber-2')).toHaveTextContent('LH202');
+    expect(screen.getByTestId('cell-departureTime-2')).toHaveTextContent('-');
+    expect(screen.queryByTestId('error-title')).not.toBeInTheDocument();
   });
 
   it('allows recovery from an initial request failure', async () => {
     const user = userEvent.setup();
     server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.error()));
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
 
     expect(await screen.findByTestId('error-title')).toHaveTextContent('Unable to load data.');
     expect(screen.queryByTestId('data-table')).not.toBeInTheDocument();
@@ -148,7 +163,7 @@ describe('FlightList integration', () => {
 
   it('handles a successful empty response', async () => {
     server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.json([])));
-    render(<FlightList />);
+    render(<FlightList onSelectFlight={mockOnSelectFlight} />);
     expect(await screen.findByTestId('empty-message')).toBeInTheDocument();
     expect(screen.queryByTestId('error-title')).not.toBeInTheDocument();
   });

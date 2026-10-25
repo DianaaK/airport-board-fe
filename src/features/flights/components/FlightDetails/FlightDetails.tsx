@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
+import { DeparturesIcon } from '@components/icons/DeparturesIcon';
+import { Card } from '@components/ui/Card/Card';
+
 import { FlightInfoBox } from './components/FlightInfoBox/FlightInfoBox';
 import { FlightRouteMap } from './components/FlightRouteMap/FlightRouteMap';
 import styles from './FlightDetails.module.css';
-import { DeparturesIcon } from '../../../../components/icons/DeparturesIcon';
-import { Card } from '../../../../components/ui/Card/Card';
-import { useGetFlightDetails } from '../../hooks/useGetFlightDetails';
+import { useGetFlightDetails } from '../../hooks/useGetFlightDetails/useGetFlightDetails';
 
 export const FlightDetails = ({ id, onClose }: { id: string; onClose: () => void }) => {
   const { t } = useTranslation(['FlightList', 'Common']);
@@ -52,17 +53,17 @@ export const FlightDetails = ({ id, onClose }: { id: string; onClose: () => void
         <>
           <div className={styles.airports}>
             <div>
-              <strong>{data.origin.code}</strong>
-              <span>{data.origin.city}</span>
-              <small>{data.origin.name}</small>
+              <strong>{data.origin?.code || '—'}</strong>
+              <span>{data.origin?.city || '—'}</span>
+              <small>{data.origin?.name || '—'}</small>
             </div>
             <div className={styles.routeLine}>
               <DeparturesIcon />
             </div>
             <div>
-              <strong>{data.destinationAirport.code}</strong>
-              <span>{data.destinationAirport.city}</span>
-              <small>{data.destinationAirport.name}</small>
+              <strong>{data.destinationAirport?.code || '—'}</strong>
+              <span>{data.destinationAirport?.city || '—'}</span>
+              <small>{data.destinationAirport?.name || '—'}</small>
             </div>
           </div>
           <div className={styles.tabs} role="tablist">

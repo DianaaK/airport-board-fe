@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
+import { SearchField } from '@components/ui/SearchField/SearchField';
+import { Select } from '@components/ui/Select/Select';
+import { FLIGHT_STATUSES } from '@features/flights/types/flight.types';
+
 import styles from './FlightFilters.module.css';
-import { SearchField } from '../../../../components/ui/SearchField/SearchField';
-import { Select } from '../../../../components/ui/Select/Select';
-import { FLIGHT_STATUSES } from '../../types/flight';
-import type { FlightGroupOption, FlightStatusFilter } from '../../utils/flight-filters';
+import type { FlightStatusFilter, FlightGroupOption } from '../../utils/flight-filters.utils';
 
 type FlightFiltersProps = {
   search: string;

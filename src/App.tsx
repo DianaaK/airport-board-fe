@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
-import { AppLayout } from './components/layout/AppLayout/AppLayout';
-import { ErrorBoundary } from './components/ui/ErrorBoundary/ErrorBoundary';
-import { NotFound } from './components/ui/NotFound/NotFound';
-import { FlightList } from './features/flights/components/FlightList/FlightList';
+import { AppLayout } from '@components/layout/AppLayout/AppLayout';
+import { ErrorBoundary } from '@components/ui/ErrorBoundary/ErrorBoundary';
+import { NotFound } from '@components/ui/NotFound/NotFound';
+import { FlightsPage } from '@pages/FlightsPage/FlightsPage';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: FlightList,
+        Component: FlightsPage,
         ErrorBoundary,
       },
       {

@@ -1,7 +1,8 @@
 import type { ChangeEvent, InputHTMLAttributes } from 'react';
 
+import { SearchIcon } from '@components/icons/SearchIcon';
+
 import styles from './SearchField.module.css';
-import { SearchIcon } from '../../icons/SearchIcon';
 
 type SearchFieldProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,

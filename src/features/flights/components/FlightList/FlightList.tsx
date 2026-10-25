@@ -3,25 +3,28 @@ import { useCallback, useMemo, useState } from 'react';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
+import { useInterval } from '@/hooks/useInterval/useInterval';
+import { Badge } from '@components/ui/Badge/Badge';
+import { DataStatus } from '@components/ui/DataStatus/DataStatus';
+import { DataTable, type ColumnDef } from '@components/ui/DataTable/DataTable';
+import { DataTableHeader } from '@components/ui/DataTableHeader/DataTableHeader';
+import { RefreshControls } from '@components/ui/RefreshControls/RefreshControls';
+
+import { FlightFilters } from './components/FlightFilters/FlightFilters';
 import styles from './FlightList.module.css';
-import { PageLayout } from '../../../../components/layout/PageLayout/PageLayout';
-import { Badge } from '../../../../components/ui/Badge/Badge';
-import { DataStatus } from '../../../../components/ui/DataStatus/DataStatus';
-import { DataTable, type ColumnDef } from '../../../../components/ui/DataTable/DataTable';
-import { DataTableHeader } from '../../../../components/ui/DataTableHeader/DataTableHeader';
-import { RefreshControls } from '../../../../components/ui/RefreshControls/RefreshControls';
-import { useInterval } from '../../../../hooks/useInterval/useInterval';
-import { useGetFlights } from '../../hooks/useGetFlights';
-import { type Flight } from '../../types/flight';
 import {
-  filterFlights,
-  groupFlights,
   type FlightStatusFilter,
   type FlightGroupOption,
-} from '../../utils/flight-filters';
-import { FLIGHT_STATUS_COLORS } from '../../utils/flight-status';
-import { FlightDetails } from '../FlightDetails/FlightDetails';
-import { FlightFilters } from '../FlightFilters/FlightFilters';
+  filterFlights,
+  groupFlights,
+} from './utils/flight-filters.utils';
+import { FLIGHT_STATUS_COLORS } from '../../constants/flight.constants';
+import { useGetFlights } from '../../hooks/useGetFlights/useGetFlights';
+import type { Flight } from '../../types/flight.types';
+
+type FlightListProps = {
+  onSelectFlight: (id: string) => void;
+};
 
 const DATA_TABLE_HEADER_COLORS = ['yellow', 'blue', 'green', 'purple', 'pink'] as const;
 
@@ -43,13 +46,13 @@ const getFlightColumns = (
         }
         return (
           <time
-            dateTime={row.departureTime}
+            dateTime={row.departureTime.toISOString()}
             title={tCommon('formats.date', {
-              value: new Date(row.departureTime),
+              value: row.departureTime,
               formatParams: { value: { format: { dateStyle: 'medium', timeStyle: 'medium' } } },
             })}
           >
-            {tCommon('formats.time', { value: new Date(row.departureTime) })}
+            {tCommon('formats.time', { value: row.departureTime })}
           </time>
         );
       },
@@ -74,14 +77,13 @@ const getFlightColumns = (
 
 const REFRESH_INTERVAL = 30_000;
 
-export const FlightList = () => {
+export const FlightList = ({ onSelectFlight }: FlightListProps) => {
   const { t } = useTranslation('FlightList', { keyPrefix: 'FlightList' });
   const { t: tCommon } = useTranslation('Common');
 
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<FlightStatusFilter>('all');
   const [grouping, setGrouping] = useState<FlightGroupOption>('terminal');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const { data: flights, error, isFetching, isLoading, lastUpdated, refetch } = useGetFlights();
 
@@ -94,8 +96,12 @@ export const FlightList = () => {
   const groups = useMemo(() => groupFlights(filtered, grouping), [filtered, grouping]);
   const flightColumns = useMemo(() => getFlightColumns(t, tCommon), [t, tCommon]);
 
-  const selectFlight = useCallback((flight: Flight) => setSelectedId(flight.id), []);
-  const closeDetails = useCallback(() => setSelectedId(null), []);
+  const selectFlight = useCallback(
+    (flight: Flight) => {
+      onSelectFlight(flight.id);
+    },
+    [onSelectFlight],
+  );
 
   const getGroupingName = (grouping: FlightGroupOption, value: string) => {
     switch (grouping) {
@@ -110,56 +116,54 @@ export const FlightList = () => {
 
   const hasData = flights !== undefined;
   return (
-    <PageLayout details={!!selectedId && <FlightDetails id={selectedId} onClose={closeDetails} />}>
-      <div className={styles.flightBoard}>
-        <div className={styles.toolbar}>
-          <FlightFilters
-            search={search}
-            status={status}
-            grouping={grouping}
-            onSearchChange={setSearch}
-            onStatusChange={setStatus}
-            onGroupingChange={setGrouping}
-          />
-          <RefreshControls
-            isFetching={isFetching}
-            lastUpdated={lastUpdated}
-            hasError={!!error}
-            onRefresh={refetch}
-          />
-        </div>
-        <DataStatus isLoading={isLoading} isFetching={isFetching} hasData={hasData} error={error} />
-        {hasData && (
-          <div>
-            {groups.size === 0 && (
-              <p className={styles.empty} data-testid="empty-message">
-                {t('emptyFlights')}
-              </p>
-            )}
-            {[...groups].map(([name, group], index) => (
-              <details
-                className={styles.flightGroup}
-                key={`${grouping}-${name}`}
-                data-testid={`flight-group-${grouping}-${name}`}
-                open
-              >
-                <DataTableHeader
-                  value={grouping === 'airline' ? name.charAt(0) : name}
-                  title={getGroupingName(grouping, name)}
-                  subtitle={t('flight', { count: group.length })}
-                  color={DATA_TABLE_HEADER_COLORS[index % DATA_TABLE_HEADER_COLORS.length]}
-                />
-                <DataTable
-                  rows={group}
-                  columns={flightColumns}
-                  getRowId={getFlightRowId}
-                  onRowClick={selectFlight}
-                />
-              </details>
-            ))}
-          </div>
-        )}
+    <div className={styles.flightBoard}>
+      <div className={styles.toolbar}>
+        <FlightFilters
+          search={search}
+          status={status}
+          grouping={grouping}
+          onSearchChange={setSearch}
+          onStatusChange={setStatus}
+          onGroupingChange={setGrouping}
+        />
+        <RefreshControls
+          isFetching={isFetching}
+          lastUpdated={lastUpdated}
+          hasError={!!error}
+          onRefresh={refetch}
+        />
       </div>
-    </PageLayout>
+      <DataStatus isLoading={isLoading} isFetching={isFetching} hasData={hasData} error={error} />
+      {hasData && (
+        <div>
+          {groups.size === 0 && (
+            <p className={styles.empty} data-testid="empty-message">
+              {t('emptyFlights')}
+            </p>
+          )}
+          {[...groups].map(([name, group], index) => (
+            <details
+              className={styles.flightGroup}
+              key={`${grouping}-${name}`}
+              data-testid={`flight-group-${grouping}-${name}`}
+              open
+            >
+              <DataTableHeader
+                value={grouping === 'airline' ? name.charAt(0) : name}
+                title={getGroupingName(grouping, name)}
+                subtitle={t('flight', { count: group.length })}
+                color={DATA_TABLE_HEADER_COLORS[index % DATA_TABLE_HEADER_COLORS.length]}
+              />
+              <DataTable
+                rows={group}
+                columns={flightColumns}
+                getRowId={getFlightRowId}
+                onRowClick={selectFlight}
+              />
+            </details>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
