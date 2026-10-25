@@ -1,0 +1,22 @@
+.badge {
+  display: inline-block;
+  padding: var(--space-1) 11px;
+  border-radius: 6px;
+  font-size: var(--font-size-control);
+  white-space: nowrap;
+}
+
+.green {
+  color: #25efac;
+  background: #033f325e;
+}
+
+.yellow {
+  color: #ffbd16;
+  background: #62460b50;
+}
+
+.red {
+  color: #ff4b60;
+  background: #690d224d;
+}

@@ -12,7 +12,7 @@ describe('useQuery', () => {
           resolveRequest = resolve;
         }),
     );
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
 
     expect(result.current).toMatchObject({
       data: undefined,
@@ -35,7 +35,7 @@ describe('useQuery', () => {
 
   it('reports initial failures and normalizes non-Error rejections', async () => {
     const fetcher = vi.fn().mockRejectedValue('offline');
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
     await waitFor(() => expect(result.current.isFetching).toBe(false));
     expect(result.current.error).toEqual(new Error('offline'));
     expect(result.current.data).toBeUndefined();
@@ -54,7 +54,7 @@ describe('useQuery', () => {
             resolveRequest = resolve;
           }),
       );
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
     await waitFor(() => expect(result.current.data).toEqual('result'));
 
     act(() => {
@@ -77,7 +77,7 @@ describe('useQuery', () => {
       .fn()
       .mockResolvedValueOnce(['first'])
       .mockRejectedValueOnce(new Error('offline'));
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
     await waitFor(() => expect(result.current.data).toEqual(['first']));
     const lastSuccessfulUpdate = result.current.lastUpdated;
 
@@ -100,7 +100,7 @@ describe('useQuery', () => {
       .mockResolvedValueOnce(['first'])
       .mockRejectedValueOnce(new Error('offline'))
       .mockResolvedValueOnce(['updated']);
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
     await waitFor(() => expect(result.current.data).toEqual(['first']));
 
     await act(async () => {
@@ -127,7 +127,7 @@ describe('useQuery', () => {
           resolveRequest = resolve;
         }),
     );
-    const { result } = renderHook(() => useQuery(fetcher));
+    const { result } = renderHook(() => useQuery({ queryKey: ['test'], queryFn: fetcher }));
     await act(async () => {
       await result.current.refetch();
       await result.current.refetch();
@@ -148,9 +148,13 @@ describe('useQuery', () => {
         }),
     );
     const newFetcher = vi.fn().mockResolvedValue('new');
-    const { result, rerender } = renderHook(({ fetcher }) => useQuery(fetcher), {
-      initialProps: { fetcher: oldFetcher },
-    });
+    const { result, rerender } = renderHook(
+      ({ fetcher }) =>
+        useQuery({ queryKey: [fetcher === oldFetcher ? 'old' : 'new'], queryFn: fetcher }),
+      {
+        initialProps: { fetcher: oldFetcher },
+      },
+    );
     rerender({ fetcher: newFetcher });
     await waitFor(() => expect(result.current.data).toBe('new'));
     expect(oldFetcher.mock.calls[0][0].aborted).toBe(true);

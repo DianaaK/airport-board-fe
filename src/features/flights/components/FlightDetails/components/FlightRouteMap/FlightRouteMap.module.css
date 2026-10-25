@@ -1,0 +1,50 @@
+.mapFrame {
+  position: relative;
+}
+
+.map {
+  height: 240px;
+  border-radius: 8px;
+  background: #0c2031;
+  overflow: hidden;
+}
+
+.map {
+  isolation: isolate;
+  z-index: 0;
+}
+
+.map :global(.leaflet-tile-pane) {
+  filter: invert(0.9) hue-rotate(170deg) brightness(0.65) saturate(0.6);
+}
+
+.map :global(.leaflet-control-attribution) {
+  background: #07121fdd;
+  color: #9bb1c6;
+  font-size: 9px;
+}
+
+.map :global(.leaflet-control-attribution a) {
+  color: #9ec5e8;
+}
+
+.mapLabel {
+  background: #0b1c2be6;
+  color: #f1f5fc;
+  border: 0;
+  box-shadow: none;
+}
+
+.mapLabel::before {
+  display: none;
+}
+
+.mapNotice {
+  position: absolute;
+  bottom: 22px;
+  left: 10px;
+  right: 10px;
+  padding: 6px;
+  background: #091522e6;
+  font-size: 12px;
+}

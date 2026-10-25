@@ -3,13 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { ENV_API_URL } from '../../../../../config/environment';
 import { server } from '../../../../../test/server';
-import { flights } from '../../../api/mocks/flights';
+import { flights } from '../../../api/getFlights/mocks/getFlights.mock';
+import { FLIGHTS_ENDPOINTS } from '../../../config/endpoints';
 import { FlightList } from '../FlightList';
 
 beforeEach(() => {
-  server.use(http.get(ENV_API_URL, () => HttpResponse.json(flights)));
+  server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.json(flights)));
 });
 
 describe('FlightList integration', () => {
@@ -83,7 +83,7 @@ describe('FlightList integration', () => {
       releaseResolve = resolve;
     });
     server.use(
-      http.get(ENV_API_URL, async () => {
+      http.get(FLIGHTS_ENDPOINTS.getAll(), async () => {
         await responseReady;
         return HttpResponse.json([{ ...flights[0], destination: 'Madrid' }]);
       }),
@@ -106,13 +106,11 @@ describe('FlightList integration', () => {
     render(<FlightList />);
     await screen.findByTestId('cell-flightNumber-1');
 
-    server.use(http.get(ENV_API_URL, () => new HttpResponse(null, { status: 503 })));
+    server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => new HttpResponse(null, { status: 503 })));
     await user.click(screen.getByTestId('refresh-button'));
-    expect(await screen.findByTestId('error-title')).toHaveTextContent(
-      'Flight information may be outdated.',
-    );
+    expect(await screen.findByTestId('error-title')).toHaveTextContent('Data may be outdated.');
     expect(screen.getByTestId('cell-flightNumber-1')).toBeInTheDocument();
-    server.use(http.get(ENV_API_URL, () => HttpResponse.json(flights)));
+    server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.json(flights)));
     await user.click(screen.getByTestId('refresh-button'));
     await waitFor(() => expect(screen.queryByTestId('error-title')).not.toBeInTheDocument());
   });
@@ -123,7 +121,7 @@ describe('FlightList integration', () => {
     await screen.findByTestId('cell-flightNumber-1');
 
     server.use(
-      http.get(ENV_API_URL, () =>
+      http.get(FLIGHTS_ENDPOINTS.getAll(), () =>
         HttpResponse.json([
           { ...flights[0], destination: undefined },
           { ...flights[1], departure_time: 'invalid' },
@@ -131,27 +129,25 @@ describe('FlightList integration', () => {
       ),
     );
     await user.click(screen.getByTestId('refresh-button'));
-    expect(await screen.findByTestId('error-title')).toHaveTextContent(
-      'Flight information may be outdated.',
-    );
+    expect(await screen.findByTestId('error-title')).toHaveTextContent('Data may be outdated.');
   });
 
   it('allows recovery from an initial request failure', async () => {
     const user = userEvent.setup();
-    server.use(http.get(ENV_API_URL, () => HttpResponse.error()));
+    server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.error()));
     render(<FlightList />);
 
     expect(await screen.findByTestId('error-title')).toHaveTextContent('Unable to load data.');
     expect(screen.queryByTestId('data-table')).not.toBeInTheDocument();
 
-    server.use(http.get(ENV_API_URL, () => HttpResponse.json(flights)));
+    server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.json(flights)));
     await user.click(screen.getByTestId('refresh-button'));
     await screen.findByTestId('cell-flightNumber-1');
     expect(screen.queryByTestId('error-title')).not.toBeInTheDocument();
   });
 
   it('handles a successful empty response', async () => {
-    server.use(http.get(ENV_API_URL, () => HttpResponse.json([])));
+    server.use(http.get(FLIGHTS_ENDPOINTS.getAll(), () => HttpResponse.json([])));
     render(<FlightList />);
     expect(await screen.findByTestId('empty-message')).toBeInTheDocument();
     expect(screen.queryByTestId('error-title')).not.toBeInTheDocument();

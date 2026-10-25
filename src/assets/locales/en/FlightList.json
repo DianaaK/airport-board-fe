@@ -27,5 +27,23 @@
     "groupGate": "Group by gate",
     "groupAirline": "Group by airline",
     "search": "Search flights, destinations, airlines..."
+  },
+  "FlightDetails": {
+    "title": "Details for {{flight}}",
+    "close": "Close flight details",
+    "views": "Flight information views",
+    "route": "Flight route",
+    "terminalMap": "Terminal map",
+    "duration": "Duration",
+    "aircraft": "Aircraft",
+    "registration": "Registration",
+    "durationValue": "{{hours}}h {{minutes}}m",
+    "routeMap": "Route from {{origin}} to {{destination}}",
+    "mapLoading": "Loading route map…",
+    "mapUnavailable": "Map tiles are unavailable. Route and airport markers remain visible.",
+    "routeNote": "Route overview — not an operational flight path.",
+    "terminalNote": "Terminal and gate schematic. An airport floor plan is not available.",
+    "heading": "Flight details",
+    "empty": "No flight details are available."
   }
 }

@@ -1,30 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 import styles from './FlightList.module.css';
 import { PageLayout } from '../../../../components/layout/PageLayout/PageLayout';
+import { Badge } from '../../../../components/ui/Badge/Badge';
 import { DataStatus } from '../../../../components/ui/DataStatus/DataStatus';
 import { DataTable, type ColumnDef } from '../../../../components/ui/DataTable/DataTable';
 import { DataTableHeader } from '../../../../components/ui/DataTableHeader/DataTableHeader';
 import { RefreshControls } from '../../../../components/ui/RefreshControls/RefreshControls';
 import { useInterval } from '../../../../hooks/useInterval/useInterval';
 import { useGetFlights } from '../../hooks/useGetFlights';
-import { type Flight, type FlightStatus } from '../../types/flight';
+import { type Flight } from '../../types/flight';
 import {
   filterFlights,
   groupFlights,
   type FlightStatusFilter,
   type FlightGroupOption,
 } from '../../utils/flight-filters';
+import { FLIGHT_STATUS_COLORS } from '../../utils/flight-status';
+import { FlightDetails } from '../FlightDetails/FlightDetails';
 import { FlightFilters } from '../FlightFilters/FlightFilters';
-
-const statusClasses: Record<FlightStatus, string> = {
-  'On Time': styles.onTime,
-  Delayed: styles.delayed,
-  Cancelled: styles.cancelled,
-};
 
 const DATA_TABLE_HEADER_COLORS = ['yellow', 'blue', 'green', 'purple', 'pink'] as const;
 
@@ -61,9 +58,7 @@ const getFlightColumns = (
       field: 'status',
       headerName: t('status.label'),
       renderCell: ({ row }) => (
-        <span className={`${styles.badge} ${statusClasses[row.status]}`}>
-          {t(`status.options.${row.status}`)}
-        </span>
+        <Badge text={t(`status.options.${row.status}`)} color={FLIGHT_STATUS_COLORS[row.status]} />
       ),
     },
     { field: 'gate', headerName: t('gate') },
@@ -86,6 +81,7 @@ export const FlightList = () => {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<FlightStatusFilter>('all');
   const [grouping, setGrouping] = useState<FlightGroupOption>('terminal');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const { data: flights, error, isFetching, isLoading, lastUpdated, refetch } = useGetFlights();
 
@@ -97,6 +93,9 @@ export const FlightList = () => {
   );
   const groups = useMemo(() => groupFlights(filtered, grouping), [filtered, grouping]);
   const flightColumns = useMemo(() => getFlightColumns(t, tCommon), [t, tCommon]);
+
+  const selectFlight = useCallback((flight: Flight) => setSelectedId(flight.id), []);
+  const closeDetails = useCallback(() => setSelectedId(null), []);
 
   const getGroupingName = (grouping: FlightGroupOption, value: string) => {
     switch (grouping) {
@@ -111,7 +110,7 @@ export const FlightList = () => {
 
   const hasData = flights !== undefined;
   return (
-    <PageLayout>
+    <PageLayout details={!!selectedId && <FlightDetails id={selectedId} onClose={closeDetails} />}>
       <div className={styles.flightBoard}>
         <div className={styles.toolbar}>
           <FlightFilters
@@ -131,7 +130,7 @@ export const FlightList = () => {
         </div>
         <DataStatus isLoading={isLoading} isFetching={isFetching} hasData={hasData} error={error} />
         {hasData && (
-          <div aria-busy={isFetching && hasData}>
+          <div>
             {groups.size === 0 && (
               <p className={styles.empty} data-testid="empty-message">
                 {t('emptyFlights')}
@@ -150,7 +149,12 @@ export const FlightList = () => {
                   subtitle={t('flight', { count: group.length })}
                   color={DATA_TABLE_HEADER_COLORS[index % DATA_TABLE_HEADER_COLORS.length]}
                 />
-                <DataTable rows={group} columns={flightColumns} getRowId={getFlightRowId} />
+                <DataTable
+                  rows={group}
+                  columns={flightColumns}
+                  getRowId={getFlightRowId}
+                  onRowClick={selectFlight}
+                />
               </details>
             ))}
           </div>

@@ -27,5 +27,23 @@
     "groupGate": "Grupează după poartă",
     "groupAirline": "Grupează după companie",
     "search": "Caută zboruri, destinații, companii..."
+  },
+  "FlightDetails": {
+    "title": "Detalii pentru {{flight}}",
+    "close": "Închide detaliile zborului",
+    "views": "Informații despre zbor",
+    "route": "Ruta zborului",
+    "terminalMap": "Harta terminalului",
+    "duration": "Durată",
+    "aircraft": "Aeronavă",
+    "registration": "Înmatriculare",
+    "durationValue": "{{hours}}h {{minutes}}min",
+    "routeMap": "Ruta de la {{origin}} la {{destination}}",
+    "mapLoading": "Se încarcă harta…",
+    "mapUnavailable": "Harta nu este disponibilă. Ruta și marcajele aeroporturilor rămân vizibile.",
+    "routeNote": "Prezentare a rutei — nu reprezintă traseul operațional.",
+    "terminalNote": "Schemă pentru terminal și poartă. Planul aeroportului nu este disponibil.",
+    "heading": "Detalii zbor",
+    "empty": "Nu sunt disponibile detalii despre zbor."
   }
 }

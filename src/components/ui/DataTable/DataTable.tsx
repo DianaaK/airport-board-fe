@@ -19,17 +19,19 @@ export type ColumnDef<Row> = {
 type DataTableProps<Row> = {
   rows: Row[];
   columns: ColumnDef<Row>[];
-  getRowId: (row: Row) => Key;
   emptyMessage?: string;
   emptyCellContent?: string;
+  getRowId: (row: Row) => Key;
+  onRowClick?: (row: Row) => void;
 };
 
 const DataTableComponent = <Row,>({
   rows,
   columns,
-  getRowId,
   emptyMessage,
   emptyCellContent = '-',
+  getRowId,
+  onRowClick,
 }: DataTableProps<Row>) => {
   const { t } = useTranslation('Common', { keyPrefix: 'messages' });
 
@@ -54,7 +56,11 @@ const DataTableComponent = <Row,>({
             </tr>
           ) : (
             rows.map((row) => (
-              <tr key={getRowId(row)}>
+              <tr
+                key={getRowId(row)}
+                className={onRowClick ? styles.selectable : undefined}
+                onClick={() => onRowClick?.(row)}
+              >
                 {columns.map((column) => {
                   const params = { row, field: column.field, value: row[column.field] };
                   const content = column.renderCell

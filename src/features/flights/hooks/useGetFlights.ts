@@ -1,6 +1,6 @@
 import { useQuery } from '../../../hooks/useQuery/useQuery';
-import { getFlights } from '../api/get-flights';
+import { getFlights } from '../api/getFlights/getFlights';
 
 export const useGetFlights = () => {
-  return useQuery(getFlights);
+  return useQuery({ queryKey: ['flights'], queryFn: getFlights });
 };

@@ -14,14 +14,20 @@
 }
 
 .boardDetails {
+  position: sticky;
+  top: var(--space-4);
+  max-height: calc(100dvh - var(--space-4) - var(--space-4));
   border: 1px solid var(--color-panel-border);
   border-radius: var(--radius-panel);
   background: var(--color-panel-background);
-  overflow: hidden;
   box-shadow: var(--shadow-panel);
 }
 
 @media (max-width: 1100px) {
+  .boardDetails {
+    position: static;
+    max-height: none;
+  }
   .boardWorkspace.hasDetails {
     grid-template-columns: minmax(0, 1fr);
   }

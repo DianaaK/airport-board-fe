@@ -1,4 +1,4 @@
-import type { FlightDto } from '../../types/flight';
+import type { FlightDto } from '../../../types/flight';
 
 export const flights: FlightDto[] = [
   {

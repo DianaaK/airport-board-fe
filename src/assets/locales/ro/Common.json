@@ -2,13 +2,15 @@
   "actions": {
     "returnDepartures": "Înapoi la plecări",
     "refresh": "Actualizează",
-    "reload": "Reîncarcă pagina"
+    "reload": "Reîncarcă pagina",
+    "retry": "Reîncearcă",
+    "close": "Închide"
   },
   "labels": {
     "airport": "AEROPORT INTERNAȚIONAL",
     "departures": "Plecări",
     "arrivals": "Sosiri",
-    "city": "BUCUREȘTI",
+    "city": "CLUJ-NAPOCA",
     "localTime": "Ora locală a aeroportului",
     "language": "Limbă",
     "updated": "Actualizat la",
@@ -20,7 +22,7 @@
     "loading": "Se încarcă datele... Te rugăm să aștepți.",
     "refreshing": "Se actualizează datele...",
     "initialErrorTitle": "Datele nu au putut fi încărcate.",
-    "initialErrorDescription": "Nu există date disponibile. Încearcă să actualizezi din nou.",
+    "initialErrorDescription": "Nu există date disponibile. Încearcă mai târziu.",
     "staleTitle": "Datele pot fi neactualizate.",
     "staleDescription": "Ultima actualizare a eșuat. Sunt afișate ultimele date încărcate cu succes.",
     "refreshPending": "Se actualizează...",

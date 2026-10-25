@@ -1,11 +1,10 @@
 import styles from './DataTableHeader.module.css';
-import type { DATA_TABLE_HEADER_COLORS } from '../../../features/flights/utils/flight-header';
 
 type DataTableHeaderProps = {
   value: string | number;
   title: string;
   subtitle: string;
-  color?: (typeof DATA_TABLE_HEADER_COLORS)[number];
+  color?: 'yellow' | 'blue' | 'green' | 'purple' | 'pink';
 };
 
 export const DataTableHeader = ({

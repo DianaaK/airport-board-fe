@@ -2,13 +2,15 @@
   "actions": {
     "returnDepartures": "Return to departures",
     "refresh": "Refresh",
-    "reload": "Reload page"
+    "reload": "Reload page",
+    "retry": "Retry",
+    "close": "Close"
   },
   "labels": {
     "airport": "INTERNATIONAL AIRPORT",
     "departures": "Departures",
     "arrivals": "Arrivals",
-    "city": "BUCHAREST",
+    "city": "CLUJ-NAPOCA",
     "localTime": "Airport local time",
     "language": "Language",
     "updated": "Updated",
@@ -20,14 +22,14 @@
     "loading": "Loading data... Please wait.",
     "refreshing": "Refreshing data...",
     "initialErrorTitle": "Unable to load data.",
-    "initialErrorDescription": "No data is available. Try refreshing again.",
+    "initialErrorDescription": "No data is available. Try again later.",
     "staleTitle": "Data may be outdated.",
     "staleDescription": "The latest refresh failed. Showing the last successful data.",
     "refreshPending": "Refreshing...",
     "awaitingUpdate": "Awaiting update",
     "updateFailed": "Update failed",
     "unexpectedError": "Something went wrong",
-    "pageError": "We couldn't display this page. Please try again."
+    "pageError": "We couldn\u0027t display this page. Please try again."
   },
   "formats": {
     "time": "{{value, time}}",

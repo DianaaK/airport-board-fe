@@ -26,7 +26,7 @@ export const AppLayout = () => {
         <div className={styles.appBrand}>
           <LogoIcon className={styles.appLogo} />
           <div>
-            <strong>SKYPORT</strong>
+            <strong>{t('city')}</strong>
             <span>{t('airport')}</span>
           </div>
         </div>

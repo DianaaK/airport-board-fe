@@ -63,6 +63,10 @@
   background: #102c40;
 }
 
+.selectable {
+  cursor: pointer;
+}
+
 .table td:first-child {
   color: #f3f6fc;
   font-weight: 500;

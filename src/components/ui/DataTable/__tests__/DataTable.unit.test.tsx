@@ -62,7 +62,7 @@ describe('DataTable', () => {
         columns={columns}
         rows={[
           { id: 1, name: 'First', count: null },
-          { id: 1, name: 'First' },
+          { id: 2, name: 'Second' },
         ]}
         getRowId={getRowId}
       />,

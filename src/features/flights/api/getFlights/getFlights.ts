@@ -1,6 +1,6 @@
-import { ENV_API_URL } from '../../../config/environment';
-import { api } from '../../../lib/api-client';
-import { type Flight, type FlightDto } from '../types/flight';
+import { api } from '../../../../lib/api-client';
+import { FLIGHTS_ENDPOINTS } from '../../config/endpoints';
+import type { FlightDto, Flight } from '../../types/flight';
 
 const isFlightDto = (value: unknown): value is FlightDto => {
   if (!value || typeof value !== 'object') {
@@ -27,21 +27,25 @@ const mapFlightDtoToFlight = (dto: FlightDto): Flight => {
   };
 };
 
+export const parseFlightResponse = (payload: unknown): Flight => {
+  if (!isFlightDto(payload)) {
+    throw new Error('Invalid flight record');
+  }
+  return mapFlightDtoToFlight(payload);
+};
+
 export const parseFlightsResponse = (payload: unknown): Flight[] => {
   if (!Array.isArray(payload)) {
     throw new Error('Invalid flight response');
   }
-  return payload.map((value: unknown) => {
-    if (!isFlightDto(value)) {
-      throw new Error('Invalid flight record');
-    }
-    return mapFlightDtoToFlight(value);
-  });
+  return payload.map(parseFlightResponse);
 };
 
 export const getFlights = async (signal: AbortSignal): Promise<Flight[]> => {
-  const endpoint = ENV_API_URL.toString();
-  const response = await api.get<unknown>(endpoint, { signal, cache: 'no-store' });
+  const response = await api.get<unknown>(FLIGHTS_ENDPOINTS.getAll(), {
+    signal,
+    cache: 'no-store',
+  });
 
   return parseFlightsResponse(response);
 };

@@ -1,0 +1,125 @@
+.feedback {
+  margin: 20px 0;
+  color: #91aac3;
+}
+
+.identity {
+  flex: 1;
+}
+
+.identity span,
+.airports small,
+.caption {
+  color: #91aac3;
+}
+
+.airlineMark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #30495e;
+  border-radius: 9px;
+  color: #ffcb54;
+}
+
+.airports {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 34px 0 26px;
+}
+
+.airports > div:first-child,
+.airports > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.airports > div:last-child {
+  text-align: right;
+}
+
+.airports strong {
+  display: block;
+  font-size: 24px;
+  color: #f1f5fc;
+}
+
+.airports span,
+.airports small {
+  display: block;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+
+.routeLine {
+  display: flex;
+  align-items: center;
+  color: #ffcb54;
+  flex: 0.7;
+}
+
+.routeLine::before,
+.routeLine::after {
+  content: '';
+  height: 2px;
+  background: #294967;
+  flex: 1;
+}
+
+.routeLine svg {
+  width: 32px;
+  height: 32px;
+  margin: 0 6px;
+}
+
+.tabs {
+  display: flex;
+  border: 1px solid #293f54;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.tabs button {
+  flex: 1;
+  background: #0c1926;
+  color: #a9bed3;
+  padding: 13px 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.tabs .activeTab {
+  border-color: #58a3dd;
+  border-radius: 7px;
+  color: #e3efff;
+  background: #112c43;
+}
+
+.caption {
+  font-size: 11px;
+  margin: 8px 0 0;
+}
+
+.retry {
+  background: #12344d;
+  color: #e6f2ff;
+  border: 1px solid #4582b1;
+  border-radius: 5px;
+  padding: 9px 16px;
+  cursor: pointer;
+}
+
+.tabs button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.identity span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+}
