@@ -39,6 +39,7 @@ export const FlightRouteMap = ({ origin, destination }: FlightRouteMapProps) => 
         boundsOptions={{ padding: [40, 40], maxZoom: 7 }}
         scrollWheelZoom={false}
         zoomControl={false}
+        dragging={false}
       >
         <TileLayer
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
