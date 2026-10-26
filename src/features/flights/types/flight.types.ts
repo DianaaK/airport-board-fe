@@ -5,7 +5,7 @@ export type FlightStatus = (typeof FLIGHT_STATUSES)[number];
 export interface Flight {
   id: string;
   flightNumber: string;
-  destination: string;
+  destination?: string;
   status: FlightStatus;
   gate?: string;
   terminal?: string;

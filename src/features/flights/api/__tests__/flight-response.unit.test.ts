@@ -1,44 +1,44 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  parseFlightsResponse,
-  parseFlightResponse,
-  parseFlightDetailsResponse,
-} from '../flight-response';
+import { parseFlightsResponse, parseFlightDetailsResponse } from '../flight-response';
 import { flightDetails } from '../getFlightDetails/mocks/getFlightDetails.mock';
 import { flights } from '../getFlights/mocks/getFlights.mock';
 
 describe('flight response normalization', () => {
   it('parseFlightsResponse skips invalid data', () => {
     const result = parseFlightsResponse([flights[0], { id: 2 }, 'invalid']);
-    expect(result).toHaveLength(2);
-    expect(result.map((flight) => flight.id)).toEqual(['1', '2']);
+    expect(result).toHaveLength(1);
     expect(result[0].flightNumber).toBe('RO101');
-    expect(result[1].flightNumber).toBe('');
   });
 
-  it('parseFlightResponse maps correct fields and ignores unknown data', () => {
-    expect(parseFlightResponse({ ...flights[0], unknown_field: 'some data' })).toEqual({
-      id: '1',
-      flightNumber: 'RO101',
-      destination: 'Paris',
-      status: 'On Time',
-      gate: '2',
-      terminal: '1',
-      airline: 'TAROM',
-      departureTime: new Date('2026-10-24T12:00:00Z'),
+  it('parseFlightsResponse rejects a non-array response', () => {
+    expect(() => parseFlightsResponse({ flights })).toThrow('Invalid flight response');
+  });
+
+  it('parses flight fields', () => {
+    const departureTime = new Date('2026-10-24T12:00:00Z');
+    const [result] = parseFlightsResponse([
+      {
+        ...flights[0],
+        id: 101,
+        flight_number: 202,
+        destination: 303,
+        gate: 4,
+        terminal_number: 5,
+        airline: 6,
+        departure_time: departureTime,
+      },
+    ]);
+
+    expect(result).toMatchObject({
+      id: '101',
+      flightNumber: '202',
+      destination: '303',
+      gate: '4',
+      terminal: '5',
+      airline: '6',
+      departureTime,
     });
-  });
-
-  it('parseFlightResponse handles a nullish departure time', () => {
-    expect(parseFlightResponse({ ...flights[0], departure_time: null }).departureTime).toBeNull();
-  });
-
-  it('parseFlightResponse preserves an existing valid Date object', () => {
-    const departure = new Date('2026-10-24T12:00:00Z');
-    expect(parseFlightResponse({ ...flights[0], departure_time: departure }).departureTime).toBe(
-      departure,
-    );
   });
 
   it('returns null for invalid fields', () => {
@@ -56,5 +56,24 @@ describe('flight response normalization', () => {
 
   it('parseFlightDetailsResponse rejects invalid response shapes', () => {
     expect(() => parseFlightDetailsResponse(123)).toThrow('Invalid flight details');
+  });
+
+  it('uses null or empty defaults for missing optional details', () => {
+    const result = parseFlightDetailsResponse({
+      id: '4',
+      flight_number: 'RO404',
+      status: 'On Time',
+      departure_time: null,
+      origin: null,
+      destination_airport: [],
+    });
+
+    expect(result).toMatchObject({
+      destination: undefined,
+      departureTime: null,
+      durationMinutes: null,
+      origin: null,
+      destinationAirport: null,
+    });
   });
 });

@@ -30,7 +30,7 @@ const normalizeFlight = (payload: unknown): Flight | null => {
   return {
     id: payload.id.toString(),
     flightNumber: payload.flight_number.toString(),
-    destination: payload.destination?.toString() ?? '',
+    destination: payload.destination?.toString(),
     status: payload.status as FlightStatus,
     gate: payload.gate?.toString(),
     terminal: payload.terminal_number?.toString(),
@@ -50,14 +50,6 @@ const normalizeAirport = (payload: unknown): Airport | null => {
     latitude: toNumber(payload.latitude),
     longitude: toNumber(payload.longitude),
   };
-};
-
-export const parseFlightResponse = (payload: unknown): Flight => {
-  const flight = normalizeFlight(payload);
-  if (!flight) {
-    throw new Error('Invalid flight record');
-  }
-  return flight;
 };
 
 export const parseFlightsResponse = (payload: unknown): Flight[] => {
