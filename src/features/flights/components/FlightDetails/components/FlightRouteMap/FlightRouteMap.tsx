@@ -6,6 +6,7 @@ import { CircleMarker, MapContainer, Polyline, TileLayer, Tooltip } from 'react-
 
 import 'leaflet/dist/leaflet.css';
 
+import { Text } from '@components/ui/Text/Text';
 import type { Airport } from '@features/flights/types/flight-details.types';
 
 import styles from './FlightRouteMap.module.css';
@@ -21,9 +22,9 @@ export const FlightRouteMap = ({ origin, destination }: FlightRouteMapProps) => 
 
   if (!origin?.latitude || !origin.longitude || !destination?.latitude || !destination.longitude) {
     return (
-      <div className={`${styles.mapFrame} ${styles.map}`}>
-        <span className={styles.mapNotice}>{t('routeUnavailable')}</span>
-      </div>
+      <Text component="p" className={styles.mapNotice}>
+        {t('routeUnavailable')}
+      </Text>
     );
   }
 
@@ -70,6 +71,9 @@ export const FlightRouteMap = ({ origin, destination }: FlightRouteMapProps) => 
           </CircleMarker>
         ))}
       </MapContainer>
+      <Text component="p" variant="caption" tone="muted">
+        {t('routeNote')}
+      </Text>
     </div>
   );
 };

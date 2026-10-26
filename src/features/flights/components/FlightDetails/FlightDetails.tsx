@@ -60,9 +60,6 @@ export const FlightDetails = ({ id, onClose }: { id: string; onClose: () => void
           </div>
           <div role="tabpanel" id="route-panel">
             <FlightRouteMap origin={data.origin} destination={data.destinationAirport} />
-            <Text component="p" variant="caption" tone="muted" className={styles.caption}>
-              {t('FlightDetails.routeNote')}
-            </Text>
           </div>
           <FlightInfoBox flight={data} />
         </>

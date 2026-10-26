@@ -24,9 +24,12 @@ const normalizeFlight = (payload: unknown): Flight | null => {
   if (!isRecord(payload)) {
     return null;
   }
+  if (!payload.id || !payload.flight_number) {
+    return null;
+  }
   return {
-    id: payload.id?.toString() ?? '',
-    flightNumber: payload.flight_number?.toString() ?? '',
+    id: payload.id.toString(),
+    flightNumber: payload.flight_number.toString(),
     destination: payload.destination?.toString() ?? '',
     status: payload.status as FlightStatus,
     gate: payload.gate?.toString(),

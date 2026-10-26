@@ -15,7 +15,7 @@ export const FlightStatusBadge = ({ status }: { status: FlightStatus }) => {
 
   return (
     <span className={`${styles.badge} ${styles[FLIGHT_STATUS_COLORS[status]]}`}>
-      {t(`FlightList.status.options.${status}`)}
+      {t(`FlightList.status.options.${status}`, status)}
     </span>
   );
 };

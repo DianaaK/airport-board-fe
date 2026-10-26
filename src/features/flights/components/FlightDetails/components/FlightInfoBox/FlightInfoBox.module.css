@@ -1,7 +1,14 @@
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: var(--space-5) 0 0;
+  border-top: 1px solid var(--color-panel-border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 25% 45% 30%;
+}
+
+.row + .row {
   border-top: 1px solid var(--color-panel-border);
 }
 
@@ -15,36 +22,22 @@
   padding: 20px 10px;
 }
 
-.cell:not(:nth-child(3n))::after {
+.cell + .cell::before {
   content: '';
   position: absolute;
-  right: 0;
+  left: 0;
   top: 20px;
   bottom: 20px;
   width: 1px;
   background: var(--color-panel-border);
 }
 
-.cell:nth-child(3n) {
-  padding-right: 0;
-}
-.cell:nth-child(3n + 1) {
-  padding-left: 0;
-}
-.cell:nth-child(n + 4) {
-  border-top: 1px solid var(--color-panel-border);
-}
-
 .gateTerminal {
   flex-direction: row;
   gap: 8px;
 }
+
 .gateTerminal > div + div {
   border-left: 1px solid var(--color-panel-border);
   padding-left: var(--space-2);
-}
-.grid time {
-  font-size: 22px;
-  color: var(--color-text);
-  font-weight: 600;
 }
